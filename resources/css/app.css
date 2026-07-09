@@ -1235,6 +1235,7 @@ html[dir="rtl"] .cat-card:hover .cat-arrow svg{translate:-3px 0}
 .dash-bar strong{font-size:1.15rem;margin-inline-end:.7rem}
 .role-chip{font-size:.72rem;font-weight:700;padding:.3rem .7rem;border-radius:999px;background:var(--sand-2);color:var(--mut)}
 .role-seller{background:rgba(45,212,191,.16);color:#0f766e}
+.role-sub_admin{background:rgba(255,181,71,.18);color:#a15c00}
 .role-admin{background:rgba(20,159,212,.16);color:var(--blue-deep)}
 .dash-flash{background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.4);color:#0f766e;
   padding:.9rem 1.1rem;border-radius:12px;margin-bottom:1.4rem;font-weight:600}

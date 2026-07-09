@@ -24,6 +24,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            // Lets any staff member change their own name, e-mail and password
+            // from the account menu, without touching the Users resource.
+            ->profile(isSimple: false)
             ->brandName('Ocean Drilling & Trading')
             ->favicon(asset('favicon.svg'))
             ->colors([

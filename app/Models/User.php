@@ -19,7 +19,10 @@ class User extends Authenticatable implements FilamentUser
     /** A user who has had at least one listing approved. */
     public const ROLE_SELLER = 'seller';
 
-    /** Reviews listings and reaches the Filament panel. */
+    /** Manages content in the panel, but may only *view* users. */
+    public const ROLE_SUB_ADMIN = 'sub_admin';
+
+    /** Full control, including managing staff accounts. */
     public const ROLE_ADMIN = 'admin';
 
     protected $fillable = ['name', 'email', 'password', 'role', 'phone', 'country'];
@@ -49,17 +52,28 @@ class User extends Authenticatable implements FilamentUser
         return $this->role === self::ROLE_ADMIN;
     }
 
+    public function isSubAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUB_ADMIN;
+    }
+
     public function isSeller(): bool
     {
         return $this->role === self::ROLE_SELLER;
     }
 
+    /** Anyone allowed inside the admin panel. */
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isSubAdmin();
+    }
+
     /**
-     * Only admins reach the Filament panel. Public registration is open, so
+     * Only staff reach the Filament panel. Public registration is open, so
      * this must never key off something a registrant controls (e.g. e-mail).
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin();
+        return $this->isStaff();
     }
 }
