@@ -11,8 +11,15 @@ const STATUS_KEYS = {
 
 const TYPE_KEYS = { sale: 'lf.type_sale', rent: 'lf.type_rent', service: 'lf.type_service' };
 
-export default function Dashboard({ listings }) {
-    const { t } = useI18n();
+const APP_STATUS_KEYS = {
+    new: 'job.st_new',
+    reviewed: 'job.st_reviewed',
+    shortlisted: 'job.st_short',
+    rejected: 'job.st_rejected',
+};
+
+export default function Dashboard({ listings, applications = [] }) {
+    const { t, pick } = useI18n();
     const { props } = usePage();
     const user = props.auth?.user;
 
@@ -73,6 +80,32 @@ export default function Dashboard({ listings }) {
                             ))}
                         </div>
                     )}
+
+                    <div className="dash-apps">
+                        <div className="dash-bar">
+                            <h2>{t('job.my_apps')}</h2>
+                            <Link href="/jobs" className="lnk">{t('job.browse')}</Link>
+                        </div>
+
+                        {applications.length === 0 ? (
+                            <p className="dash-empty">{t('job.no_apps')}</p>
+                        ) : (
+                            <div className="dash-list">
+                                {applications.map((a) => (
+                                    <article key={a.id} className="dash-card dash-card-app">
+                                        <div className="dash-body">
+                                            <h3>{a.job_opening ? pick(a.job_opening, 'title') : '—'}</h3>
+                                            <div className="dash-meta">
+                                                <span className={`st st-app-${a.status}`}>{t(APP_STATUS_KEYS[a.status])}</span>
+                                                <span className="dash-type">{a.cv_name}</span>
+                                            </div>
+                                            {a.admin_note && <p className="dash-note">{a.admin_note}</p>}
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </section>
         </>

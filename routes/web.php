@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\PageController;
@@ -21,6 +23,12 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
  * listings an admin has approved.
  */
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace');
+
+/* Careers — anyone may browse, only signed-in members may apply. */
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
+Route::get('/jobs/{job:slug}', [JobController::class, 'show'])->name('jobs.show');
+Route::post('/jobs/{job:slug}/apply', [JobApplicationController::class, 'store'])
+    ->middleware('auth')->name('jobs.apply');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');

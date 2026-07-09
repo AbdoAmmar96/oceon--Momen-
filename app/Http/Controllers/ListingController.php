@@ -13,14 +13,20 @@ use Inertia\Response;
 
 class ListingController extends Controller
 {
-    /** The member's own listings, whatever their status. */
+    /** The member's own listings and job applications, whatever their status. */
     public function dashboard(Request $request): Response
     {
+        $user = $request->user();
+
         return Inertia::render('Dashboard', [
-            'listings' => $request->user()->listings()
+            'listings' => $user->listings()
                 ->with('category')
                 ->latest()
                 ->get(),
+            'applications' => $user->jobApplications()
+                ->with('jobOpening:id,slug,title_en,title_ar,title_fr')
+                ->latest()
+                ->get(['id', 'job_opening_id', 'status', 'admin_note', 'cv_name', 'created_at']),
         ]);
     }
 

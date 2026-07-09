@@ -39,6 +39,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Listing::class);
     }
 
+    public function jobApplications(): HasMany
+    {
+        return $this->hasMany(JobApplication::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;

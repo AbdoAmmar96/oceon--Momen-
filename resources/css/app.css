@@ -1303,3 +1303,47 @@ html[dir="rtl"] .cat-card:hover .cat-arrow svg{translate:-3px 0}
 .crumbs a{color:var(--blue);font-weight:600}
 .crumbs span{margin:0 .4rem}
 @media (max-width:900px){.mk-show{grid-template-columns:1fr;gap:1.6rem}}
+
+/* ============================================================
+   Careers: openings list, role page, application form
+   ============================================================ */
+
+.job-list{display:grid;gap:1rem}
+.job-card{
+  display:flex;align-items:center;justify-content:space-between;gap:1.4rem;
+  padding:1.5rem 1.7rem;border:1px solid var(--line);border-radius:16px;background:#fff;
+  transition:transform .35s var(--e-spring),box-shadow .35s,border-color .35s;
+}
+.job-card:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 18px 40px -20px rgba(13,27,39,.3)}
+.job-main h3{font-size:1.2rem;margin-bottom:.55rem}
+.job-meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:.82rem;color:var(--mut)}
+.job-dept{font-weight:700;color:var(--blue-deep)}
+.job-type{background:var(--sand-2);color:var(--ink);font-weight:600;padding:.28rem .7rem;border-radius:999px}
+.job-go{font-weight:700;font-size:.88rem;color:var(--blue);white-space:nowrap}
+
+.job-head{border-bottom:1px solid var(--line);padding-bottom:1.4rem;margin-bottom:1.8rem}
+.job-head h1{font-family:var(--font-d);font-size:clamp(1.7rem,3.2vw,2.6rem);line-height:1.1;margin-bottom:.8rem}
+.job-closes{margin-top:.7rem;font-size:.82rem;color:var(--mut)}
+.job-desc{color:var(--mut);line-height:1.8;white-space:pre-line;margin-bottom:2.6rem}
+
+.job-apply{border-top:1px solid var(--line);padding-top:2rem}
+.job-apply h2{font-family:var(--font-d);font-size:1.5rem;margin-bottom:1.4rem}
+.job-gate{
+  padding:1.6rem;border:1px dashed var(--line);border-radius:16px;
+  background:var(--sand);display:grid;gap:1rem;justify-items:start;
+}
+.job-gate p{color:var(--mut)}
+.job-gate .btn-ghost{color:var(--ink);border-color:var(--line)}
+.job-gate .btn-ghost:hover{background:var(--sand-2)}
+.job-done{background:rgba(45,212,191,.08);border-color:rgba(45,212,191,.45)}
+.lf-hint{font-size:.76rem;color:var(--mut)}
+
+/* member dashboard: job applications */
+.dash-apps{margin-top:3.4rem;border-top:1px solid var(--line);padding-top:2rem}
+.dash-apps h2{font-family:var(--font-d);font-size:1.5rem}
+.dash-card-app{grid-template-columns:1fr}
+.st-app-new{background:rgba(255,181,71,.18);color:#a15c00}
+.st-app-reviewed{background:rgba(20,159,212,.16);color:var(--blue-deep)}
+.st-app-shortlisted{background:rgba(45,212,191,.16);color:#0f766e}
+.st-app-rejected{background:rgba(214,69,69,.12);color:#b02a2a}
+@media (max-width:700px){.job-card{flex-direction:column;align-items:flex-start}}

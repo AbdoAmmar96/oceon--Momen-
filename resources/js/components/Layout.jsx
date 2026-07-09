@@ -12,6 +12,7 @@ const NAV = [
     { href: '/products', key: 'nav.products' },
     { href: '/services', key: 'nav.services' },
     { href: '/marketplace', key: 'nav.marketplace' },
+    { href: '/jobs', key: 'nav.jobs' },
     { href: '/contact', key: 'nav.contact' },
 ];
 
@@ -19,6 +20,7 @@ const META = {
     Home: 'meta.home', About: 'meta.about', Products: 'meta.products',
     Services: 'meta.services', Contact: 'meta.contact', ProductShow: 'meta.products',
     'Marketplace/Index': 'meta.marketplace', 'Marketplace/Show': 'meta.marketplace',
+    'Jobs/Index': 'meta.jobs', 'Jobs/Show': 'meta.jobs',
     'Auth/Login': 'meta.login', 'Auth/Register': 'meta.register',
     Dashboard: 'meta.dashboard',
     'Listings/Create': 'meta.dashboard', 'Listings/Edit': 'meta.dashboard',
