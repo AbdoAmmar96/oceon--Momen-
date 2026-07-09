@@ -11,12 +11,17 @@ const NAV = [
     { href: '/about', key: 'nav.about' },
     { href: '/products', key: 'nav.products' },
     { href: '/services', key: 'nav.services' },
+    { href: '/marketplace', key: 'nav.marketplace' },
     { href: '/contact', key: 'nav.contact' },
 ];
 
 const META = {
     Home: 'meta.home', About: 'meta.about', Products: 'meta.products',
     Services: 'meta.services', Contact: 'meta.contact', ProductShow: 'meta.products',
+    'Marketplace/Index': 'meta.marketplace', 'Marketplace/Show': 'meta.marketplace',
+    'Auth/Login': 'meta.login', 'Auth/Register': 'meta.register',
+    Dashboard: 'meta.dashboard',
+    'Listings/Create': 'meta.dashboard', 'Listings/Edit': 'meta.dashboard',
 };
 
 const LANGS = [['en', 'English'], ['ar', 'العربية'], ['fr', 'Français']];
@@ -119,6 +124,30 @@ function LangSwitch({ mobile = false }) {
     );
 }
 
+/** Login / register links for guests, or an account menu for members. */
+function AccountNav({ mobile = false }) {
+    const { t } = useI18n();
+    const user = usePage().props.auth?.user;
+
+    if (! user) {
+        return (
+            <div className={mobile ? 'm-account' : 'account-nav'}>
+                <Link href="/login" className="acc-link">{t('nav.login')}</Link>
+                <Link href="/register" className="acc-link acc-strong">{t('nav.register')}</Link>
+            </div>
+        );
+    }
+
+    return (
+        <div className={mobile ? 'm-account' : 'account-nav'}>
+            <Link href="/dashboard" className="acc-link">{t('nav.dashboard')}</Link>
+            <button className="acc-link acc-out" onClick={() => router.post('/logout')}>
+                {t('nav.logout')}
+            </button>
+        </div>
+    );
+}
+
 function Header() {
     const { t, pick } = useI18n();
     const { url, props } = usePage();
@@ -170,6 +199,7 @@ function Header() {
                         ))}
                     </nav>
                     <LangSwitch />
+                    <AccountNav />
                     <Link href="/contact" className="btn head-cta">{t('nav.quote')}</Link>
                     <button className={`burger ${menu ? 'open' : ''}`} onClick={() => setMenu(!menu)} aria-label="Menu" aria-expanded={menu}>
                         <span /><span /><span />
@@ -188,6 +218,7 @@ function Header() {
                         </Link>
                     ))}
                 </nav>
+                <AccountNav mobile />
                 <LangSwitch mobile />
             </div>
         </>

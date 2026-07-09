@@ -18,6 +18,12 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'ok' => fn () => $request->session()->get('ok'),
             ],
+            // Drives the nav bar's login / account state on every page.
+            'auth' => [
+                'user' => fn () => $request->user()
+                    ? $request->user()->only(['id', 'name', 'email', 'role'])
+                    : null,
+            ],
             // Categories shared on every page so the nav bar can show its
             // hover dropdown of sections on any route.
             'navCategories' => fn () => Category::query()

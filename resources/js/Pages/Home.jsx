@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import AdvertiseHere from '../components/AdvertiseHere';
 import { useI18n } from '../hooks/useI18n';
 import {
     Bubbles, Counter, CtaBand, FlipWord, Marquee, Partners, SectionHead,
@@ -269,6 +270,7 @@ export default function Home({ categories, featured }) {
                 </div>
             </section>
             <Values />
+            <AdvertiseHere />
             <PartnersSection />
             <CtaBand />
         </>

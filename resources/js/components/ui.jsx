@@ -68,11 +68,11 @@ export function CtaBand() {
 }
 
 /* ---------- inner page hero ---------- */
-export function PageHero({ titleKey, ledeKey, bg }) {
+export function PageHero({ titleKey, ledeKey, bg = '/img/hero/h2.jpg' }) {
     const { t } = useI18n();
     return (
         <section className="page-hero">
-            <div className="bg" style={{ backgroundImage: `url(${bg})` }} />
+            <div className="bg" style={bg ? { backgroundImage: `url(${bg})` } : undefined} />
             <div className="veil" />
             <div className="wrap">
                 <nav className="crumbs" aria-label="Breadcrumb">
