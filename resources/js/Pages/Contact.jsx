@@ -27,12 +27,12 @@ export default function Contact() {
     const mapQuery = settings.contact_map_query || 'Faneromenis 148, Larnaca, Cyprus';
     const socials = buildSocials(settings);
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
-        name: '', email: '', phone: '', subject: '', body: '', locale: lang,
+        name: '', email: '', phone: '', subject: '', body: '', locale: lang, files: [],
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post('/contact', { preserveScroll: true, onSuccess: () => reset() });
+        post('/contact', { preserveScroll: true, forceFormData: true, onSuccess: () => reset() });
     };
 
     const ok = recentlySuccessful || flash?.ok;
@@ -102,6 +102,20 @@ export default function Contact() {
                         </div>
                         <Field id="c-msg" label={t('contact.f_msg')} textarea value={data.body}
                             onChange={(v) => setData('body', v)} required error={errors.body} />
+                        <div className="c-files">
+                            <label htmlFor="c-files">{t('contact.f_files')}</label>
+                            <input
+                                id="c-files"
+                                type="file"
+                                multiple
+                                accept=".pdf,.jpg,.jpeg,.png,.dwg,.dxf,.doc,.docx,.xls,.xlsx"
+                                onChange={(e) => setData('files', Array.from(e.target.files).slice(0, 3))}
+                            />
+                            <span className="c-files-hint">{t('contact.f_files_hint')}</span>
+                            {(errors.files || errors['files.0']) && (
+                                <p className="lf-err">{errors.files || errors['files.0']}</p>
+                            )}
+                        </div>
                         <button type="submit" className="btn" disabled={processing} style={{ justifyContent: 'center' }}>
                             {t('contact.f_send')} <IcArrow className="arr" style={{ width: 18, height: 18 }} />
                         </button>

@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class ContactMessageResource extends Resource
 {
@@ -46,6 +47,16 @@ class ContactMessageResource extends Resource
                 Forms\Components\TextInput::make('phone')->disabled(),
                 Forms\Components\TextInput::make('subject')->disabled(),
                 Forms\Components\Textarea::make('body')->rows(6)->disabled()->columnSpanFull(),
+                Forms\Components\Placeholder::make('attachments')
+                    ->label('Attachments (specs / drawings)')
+                    ->columnSpanFull()
+                    ->content(fn (ContactMessage $record) => new HtmlString(
+                        collect($record->attachments ?? [])
+                            ->map(fn ($f, $i) => '<a href="' . route('quote.attachment', [$record, $i]) . '" target="_blank" '
+                                . 'style="color:#0b6398;text-decoration:underline;display:inline-block;margin:2px 8px 2px 0">⬇ '
+                                . e($f['name']) . '</a>')
+                            ->implode(' ') ?: '—'
+                    )),
                 Forms\Components\Toggle::make('is_read')->label('Mark as read'),
             ])->columns(2),
         ]);
@@ -60,6 +71,9 @@ class ContactMessageResource extends Resource
                     ->weight(fn ($record) => $record->is_read ? null : 'bold'),
                 Tables\Columns\TextColumn::make('email')->searchable()->copyable(),
                 Tables\Columns\TextColumn::make('subject')->limit(34)->searchable(),
+                Tables\Columns\TextColumn::make('attachments')->label('Files')->badge()->color('info')
+                    ->getStateUsing(fn (ContactMessage $r) => ($n = count($r->attachments ?? [])) ? $n : null)
+                    ->placeholder('—'),
                 Tables\Columns\TextColumn::make('locale')->badge(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y · H:i')->sortable(),
             ])

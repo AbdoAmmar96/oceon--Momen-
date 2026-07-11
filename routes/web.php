@@ -52,3 +52,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/listings/{listing:slug}', [MarketplaceController::class, 'show'])->name('listings.show');
+
+// Staff-only download of a quote-request attachment (kept off the public disk).
+Route::get('/staff/quote/{message}/attachment/{index}', [ContactController::class, 'attachment'])
+    ->middleware('auth')->name('quote.attachment');

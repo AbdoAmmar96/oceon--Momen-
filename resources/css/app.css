@@ -1428,3 +1428,10 @@ html[lang="ar"] .hero-title{line-height:1.25}
 .why-ico svg{width:26px;height:26px}
 .why-card h3{font-size:1.15rem;margin-bottom:.55rem;color:var(--navy-800)}
 .why-card p{color:var(--mut);font-size:.92rem;line-height:1.65}
+
+/* Quote form: attachment field */
+.c-files{margin:.2rem 0 1rem}
+.c-files label{display:block;font-size:.82rem;font-weight:600;color:var(--mut);margin-bottom:.4rem}
+.c-files input[type=file]{width:100%;font-size:.85rem;color:var(--mut);
+  padding:.6rem;border:1px dashed var(--line);border-radius:10px;background:var(--sand)}
+.c-files-hint{display:block;font-size:.74rem;color:var(--mut);margin-top:.35rem}
