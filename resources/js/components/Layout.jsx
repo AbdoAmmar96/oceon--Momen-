@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { I18nProvider, useI18n } from '../hooks/useI18n';
 import { useReveal } from '../hooks/useReveal';
 import {
-    BrandIcon, IcChevron, IcFb, IcGlobe, IcIg, IcLi, IcMail, IcPhone, IcPin, IcUp, IcX, IcYt,
+    BrandIcon, IcChevron, IcFb, IcGlobe, IcIg, IcLi, IcMail, IcPhone, IcPin, IcUp, IcWhats, IcX, IcYt,
 } from './Icons';
 
 const NAV = [
@@ -11,9 +11,10 @@ const NAV = [
     { href: '/about', key: 'nav.about' },
     { href: '/products', key: 'nav.products' },
     { href: '/services', key: 'nav.services' },
-    { href: '/marketplace', key: 'nav.marketplace' },
     { href: '/jobs', key: 'nav.jobs' },
     { href: '/contact', key: 'nav.contact' },
+    // Rendered as a highlighted pill so it stands out from the other links.
+    { href: '/marketplace', key: 'nav.marketplace', highlight: true },
 ];
 
 const META = {
@@ -196,7 +197,13 @@ function Header() {
                                     </div>
                                 </div>
                             ) : (
-                                <Link key={n.href} href={n.href} className={active(n.href) ? 'active' : ''}>{t(n.key)}</Link>
+                                <Link
+                                    key={n.href}
+                                    href={n.href}
+                                    className={`${active(n.href) ? 'active' : ''} ${n.highlight ? 'nav-hot' : ''}`}
+                                >
+                                    {t(n.key)}
+                                </Link>
                             )
                         ))}
                     </nav>
@@ -215,7 +222,7 @@ function Header() {
                 <nav className="m-nav" aria-label="Mobile">
                     {NAV.map((n, i) => (
                         <Link key={n.href} href={n.href} style={{ transitionDelay: menu ? `${0.12 + i * 0.06}s` : '0s' }}
-                            className={active(n.href) ? 'active' : ''}>
+                            className={`${active(n.href) ? 'active' : ''} ${n.highlight ? 'nav-hot' : ''}`}>
                             {t(n.key)}
                         </Link>
                     ))}
@@ -313,6 +320,28 @@ function ToTop() {
     );
 }
 
+/** Floating WhatsApp button — number comes from admin settings. */
+function WhatsFloat() {
+    const { t } = useI18n();
+    const { props } = usePage();
+    const s = props.settings || {};
+    const raw = s.social_whatsapp || s.contact_phone2 || s.contact_phone || '+357 977 53 878';
+    const num = String(raw).replace(/[^\d]/g, '');
+    if (!num) return null;
+    return (
+        <a
+            className="wa-float"
+            href={`https://wa.me/${num}`}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t('wa.label')}
+        >
+            <IcWhats />
+            <span className="wa-tip">{t('wa.label')}</span>
+        </a>
+    );
+}
+
 function Shell({ children }) {
     const { t } = useI18n();
     const { component } = usePage();
@@ -338,6 +367,7 @@ function Shell({ children }) {
             <Header />
             <main>{children}</main>
             <Footer />
+            <WhatsFloat />
             <ToTop />
         </>
     );

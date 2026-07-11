@@ -1435,3 +1435,33 @@ html[lang="ar"] .hero-title{line-height:1.25}
 .c-files input[type=file]{width:100%;font-size:.85rem;color:var(--mut);
   padding:.6rem;border:1px dashed var(--line);border-radius:10px;background:var(--sand)}
 .c-files-hint{display:block;font-size:.74rem;color:var(--mut);margin-top:.35rem}
+
+/* ============================================================
+   Highlighted "Advertise Here" nav pill + floating WhatsApp button
+   ============================================================ */
+.main-nav a.nav-hot{
+  background:var(--grad-fire);color:#fff;padding:.42rem 1rem;border-radius:999px;
+  box-shadow:0 8px 20px -8px rgba(20,159,212,.6);
+}
+.main-nav a.nav-hot::after{display:none}
+.main-nav a.nav-hot:hover{color:#fff;filter:brightness(1.06)}
+.m-nav a.nav-hot{
+  background:var(--grad-fire);color:#fff;border-radius:14px;
+  padding-inline:1.1rem;display:inline-block;
+}
+
+.wa-float{
+  position:fixed;inset-inline-end:20px;bottom:88px;z-index:95;
+  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:#25d366;color:#fff;box-shadow:0 12px 28px -8px rgba(37,211,102,.7);
+  transition:transform .3s var(--e-spring),box-shadow .3s;
+}
+.wa-float svg{width:30px;height:30px}
+.wa-float:hover{transform:scale(1.08)}
+.wa-tip{
+  position:absolute;inset-inline-end:68px;white-space:nowrap;background:var(--navy-900);color:#fff;
+  font-size:.8rem;font-weight:600;padding:.45rem .8rem;border-radius:8px;opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.wa-float:hover .wa-tip{opacity:1}
+@media (max-width:600px){.wa-float{width:52px;height:52px;bottom:80px}.wa-tip{display:none}}
