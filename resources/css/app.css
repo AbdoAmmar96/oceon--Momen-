@@ -1409,3 +1409,22 @@ html[lang="ar"] .hero-title{line-height:1.25}
   .hero-stats{gap:1.1rem 1.6rem}
   .hstat{flex:1 1 40%}
 }
+
+/* ============================================================
+   Why Ocean — five reason cards
+   ============================================================ */
+.why-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem;margin-top:2.4rem;
+}
+.why-card{
+  padding:1.9rem 1.6rem;border:1px solid var(--line);border-radius:18px;background:#fff;
+  transition:transform .4s var(--e-spring),box-shadow .4s,border-color .4s;
+}
+.why-card:hover{transform:translateY(-5px);border-color:var(--blue);box-shadow:0 22px 44px -22px rgba(13,27,39,.32)}
+.why-ico{
+  display:grid;place-items:center;width:54px;height:54px;border-radius:14px;margin-bottom:1.1rem;
+  background:var(--grad-sea);color:#fff;
+}
+.why-ico svg{width:26px;height:26px}
+.why-card h3{font-size:1.15rem;margin-bottom:.55rem;color:var(--navy-800)}
+.why-card p{color:var(--mut);font-size:.92rem;line-height:1.65}

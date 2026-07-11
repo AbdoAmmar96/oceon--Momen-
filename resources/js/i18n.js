@@ -3,12 +3,12 @@ export const I18N = {
 /* ================================================================ EN */
 en: {
   "meta.home":"Ocean Drilling & Trading — Drilling Rigs, Equipment & Supplies Worldwide",
-  "meta.about":"About Us · Ocean Drilling & Trading",
+  "meta.about":"Why Ocean · Ocean Drilling & Trading",
   "meta.products":"Products · Ocean Drilling & Trading",
   "meta.services":"Services · Ocean Drilling & Trading",
   "meta.contact":"Contact · Ocean Drilling & Trading",
 
-  "nav.home":"Home","nav.about":"About","nav.products":"Products","nav.services":"Services","nav.contact":"Contact Us",
+  "nav.home":"Home","nav.about":"Why Ocean","nav.products":"Products","nav.services":"Services","nav.contact":"Contact Us",
   "nav.quote":"Request a quote",
   "nav.marketplace":"Advertise Here","nav.login":"Log in","nav.register":"Register",
   "nav.jobs":"Jobs",
@@ -169,7 +169,7 @@ en: {
   "cta.btn":"Request a quote",
 
   "ph.home":"Home",
-  "ph.about_t":"About Ocean Drilling & Trading","ph.about_l":"A Cyprus-based trading house supplying drilling operations across the globe.",
+  "ph.about_t":"Why Ocean Drilling","ph.about_l":"The reasons operators across the Middle East, Africa and Europe rely on us.",
   "ph.products_t":"Our Products","ph.products_l":"Rigs, bits, pipes, pumps and parts — real inventory, ready to quote.",
   "ph.services_t":"Our Services","ph.services_l":"Drilling supply and international trading, handled end to end.",
   "ph.contact_t":"Contact Us","ph.contact_l":"Tell us what you need. We answer fast, in your language.",
@@ -177,11 +177,13 @@ en: {
   "mv.v_t":"Our Vision","mv.v_p":"To be an example of successful investment — profitable, well-operated, and trusted by the industry it serves.",
   "mv.m_t":"Our Mission","mv.m_p":"To source, supply and deliver dependable drilling equipment that keeps our clients' projects moving — on time, on budget, anywhere in the world.",
 
-  "why.eyebrow":"Why choose us",
-  "why.title":"The supplier who answers the phone",
-  "why.1t":"One accountable partner","why.1p":"From first inquiry to after-delivery support, one team owns your order — no hand-offs, no runaround.",
-  "why.2t":"Workshop-backed supply","why.2p":"Our joinery, electrical and fabrication workshop means we understand equipment hands-on, not just from catalogs.",
-  "why.3t":"Borderless logistics","why.3p":"Cyprus at the crossroads of Europe, Africa and the Middle East — with export experience to match.",
+  "why.eyebrow":"Why Ocean",
+  "why.title":"Why Choose Ocean Drilling",
+  "why.1t":"Global Supply","why.1p":"Factory-authorized distribution and hard-to-find sourcing, delivered to your site anywhere across the Middle East, Africa and Europe.",
+  "why.2t":"Fast Delivery","why.2p":"Stock ready to move and proven export logistics get your equipment on the road quickly, paperwork handled end-to-end.",
+  "why.3t":"Technical Support","why.3p":"Our team knows the equipment hands-on — specs, compatibility and field realities — before and after the sale.",
+  "why.4t":"Genuine Spare Parts","why.4p":"Original manufacturer parts, inspected before they ship, so your rigs keep running without surprises.",
+  "why.5t":"Experienced Team","why.5p":"Years in the field and long relationships with factories mean the right call on every order.",
 
   "contact.eyebrow":"Get in touch",
   "contact.title":"Let's talk equipment",
@@ -206,12 +208,12 @@ en: {
 /* ================================================================ AR */
 ar: {
   "meta.home":"أوشن للحفر والتجارة — حفارات ومعدات ومستلزمات حفر حول العالم",
-  "meta.about":"من نحن · أوشن للحفر والتجارة",
+  "meta.about":"لماذا أوشن · أوشن للحفر والتجارة",
   "meta.products":"المنتجات · أوشن للحفر والتجارة",
   "meta.services":"خدماتنا · أوشن للحفر والتجارة",
   "meta.contact":"اتصل بنا · أوشن للحفر والتجارة",
 
-  "nav.home":"الرئيسية","nav.about":"من نحن","nav.products":"المنتجات","nav.services":"خدماتنا","nav.contact":"اتصل بنا",
+  "nav.home":"الرئيسية","nav.about":"لماذا أوشن","nav.products":"المنتجات","nav.services":"خدماتنا","nav.contact":"اتصل بنا",
   "nav.quote":"اطلب عرض سعر",
   "nav.marketplace":"أعلن هنا","nav.login":"تسجيل الدخول","nav.register":"إنشاء حساب",
   "nav.jobs":"الوظائف",
@@ -372,7 +374,7 @@ ar: {
   "cta.btn":"اطلب عرض سعر",
 
   "ph.home":"الرئيسية",
-  "ph.about_t":"عن أوشن للحفر والتجارة","ph.about_l":"بيت تجاري مقرّه قبرص يورّد لعمليات الحفر حول العالم.",
+  "ph.about_t":"لماذا أوشن للحفر","ph.about_l":"الأسباب التي تجعل مشغّلي المعدات عبر الشرق الأوسط وأفريقيا وأوروبا يعتمدون علينا.",
   "ph.products_t":"منتجاتنا","ph.products_l":"حفارات ولقم ومواسير ومضخات وقطع — مخزون حقيقي جاهز للتسعير.",
   "ph.services_t":"خدماتنا","ph.services_l":"توريد الحفر والتجارة الدولية، من الباب للباب.",
   "ph.contact_t":"اتصل بنا","ph.contact_l":"أخبرنا بما تحتاج إليه، ونحن نرد سريعًا وبلغتك.",
@@ -380,11 +382,13 @@ ar: {
   "mv.v_t":"رؤيتنا","mv.v_p":"أن نكون مثالًا للاستثمار الناجح — مربحًا، حسن التشغيل، وموثوقًا من الصناعة التي نخدمها.",
   "mv.m_t":"رسالتنا","mv.m_p":"أن نوفّر ونورّد ونسلّم معدات حفر يُعتمد عليها تُبقي مشاريع عملائنا في حركة — في الموعد، وبالميزانية، وفي أي مكان بالعالم.",
 
-  "why.eyebrow":"لماذا نحن",
-  "why.title":"المورّد الذي يجيب دائمًا",
-  "why.1t":"شريك واحد مسؤول","why.1p":"من أول استفسار حتى دعم ما بعد التسليم، فريق واحد يتولّى طلبك — بلا تمرير ولا مماطلة.",
-  "why.2t":"توريد تسنده ورشة","why.2p":"ورشتنا للنجارة والكهرباء والتصنيع تعني أننا نفهم المعدات عمليًا، لا من الكتالوجات فقط.",
-  "why.3t":"لوجستيات بلا حدود","why.3p":"قبرص عند ملتقى أوروبا وأفريقيا والشرق الأوسط — ومعها خبرة تصدير على قدر الموقع.",
+  "why.eyebrow":"لماذا أوشن",
+  "why.title":"لماذا تختار أوشن للحفر",
+  "why.1t":"توريد عالمي","why.1p":"توزيع معتمد من المصانع وتوريد للقطع النادرة، يُسلَّم إلى موقعك في أي مكان عبر الشرق الأوسط وأفريقيا وأوروبا.",
+  "why.2t":"تسليم سريع","why.2p":"مخزون جاهز ولوجستيات تصدير مثبتة تنقل معداتك بسرعة، مع تولّي الأوراق من البداية إلى النهاية.",
+  "why.3t":"دعم فني","why.3p":"فريقنا يعرف المعدات عمليًا — المواصفات والتوافق وواقع الميدان — قبل البيع وبعده.",
+  "why.4t":"قطع غيار أصلية","why.4p":"قطع أصلية من المصنّع، تُفحص قبل الشحن، لتبقى حفاراتك تعمل بلا مفاجآت.",
+  "why.5t":"فريق ذو خبرة","why.5p":"سنوات في الميدان وعلاقات طويلة مع المصانع تعني القرار الصحيح في كل طلب.",
 
   "contact.eyebrow":"تواصل معنا",
   "contact.title":"لنتحدث عن المعدات",
@@ -409,12 +413,12 @@ ar: {
 /* ================================================================ FR */
 fr: {
   "meta.home":"Ocean Drilling & Trading — Foreuses, équipements et fournitures dans le monde entier",
-  "meta.about":"À propos · Ocean Drilling & Trading",
+  "meta.about":"Pourquoi Ocean · Ocean Drilling & Trading",
   "meta.products":"Produits · Ocean Drilling & Trading",
   "meta.services":"Services · Ocean Drilling & Trading",
   "meta.contact":"Contact · Ocean Drilling & Trading",
 
-  "nav.home":"Accueil","nav.about":"À propos","nav.products":"Produits","nav.services":"Services","nav.contact":"Contact",
+  "nav.home":"Accueil","nav.about":"Pourquoi Ocean","nav.products":"Produits","nav.services":"Services","nav.contact":"Contact",
   "nav.quote":"Demander un devis",
   "nav.marketplace":"Annoncez ici","nav.login":"Connexion","nav.register":"S'inscrire",
   "nav.jobs":"Carrières",
@@ -575,7 +579,7 @@ fr: {
   "cta.btn":"Demander un devis",
 
   "ph.home":"Accueil",
-  "ph.about_t":"À propos d'Ocean Drilling & Trading","ph.about_l":"Une maison de négoce basée à Chypre, au service des chantiers de forage du monde entier.",
+  "ph.about_t":"Pourquoi Ocean Drilling","ph.about_l":"Les raisons pour lesquelles les opérateurs du Moyen-Orient, d'Afrique et d'Europe nous font confiance.",
   "ph.products_t":"Nos produits","ph.products_l":"Foreuses, taillants, tiges, pompes et pièces — un stock réel, prêt à chiffrer.",
   "ph.services_t":"Nos services","ph.services_l":"Fourniture de forage et négoce international, de bout en bout.",
   "ph.contact_t":"Contactez-nous","ph.contact_l":"Dites-nous ce qu'il vous faut. Nous répondons vite, dans votre langue.",
@@ -583,11 +587,13 @@ fr: {
   "mv.v_t":"Notre vision","mv.v_p":"Être un exemple d'investissement réussi — rentable, bien géré et digne de confiance pour l'industrie que nous servons.",
   "mv.m_t":"Notre mission","mv.m_p":"Sourcer, fournir et livrer des équipements de forage fiables qui font avancer les projets de nos clients — dans les délais, dans le budget, partout dans le monde.",
 
-  "why.eyebrow":"Pourquoi nous",
-  "why.title":"Le fournisseur qui décroche le téléphone",
-  "why.1t":"Un seul partenaire responsable","why.1p":"De la première demande au suivi après livraison, une seule équipe porte votre commande.",
-  "why.2t":"Une fourniture adossée à un atelier","why.2p":"Notre atelier de menuiserie, d'électricité et de fabrication nous donne une connaissance concrète du matériel.",
-  "why.3t":"Une logistique sans frontières","why.3p":"Chypre, au carrefour de l'Europe, de l'Afrique et du Moyen-Orient — avec l'expérience export qui va avec.",
+  "why.eyebrow":"Pourquoi Ocean",
+  "why.title":"Pourquoi choisir Ocean Drilling",
+  "why.1t":"Approvisionnement mondial","why.1p":"Distribution agréée et sourcing des pièces rares, livrés sur votre site partout au Moyen-Orient, en Afrique et en Europe.",
+  "why.2t":"Livraison rapide","why.2p":"Stock disponible et logistique export éprouvée pour expédier vite, formalités gérées de bout en bout.",
+  "why.3t":"Support technique","why.3p":"Notre équipe connaît le matériel sur le terrain — spécifications, compatibilité et réalités — avant et après la vente.",
+  "why.4t":"Pièces d'origine","why.4p":"Pièces constructeur d'origine, inspectées avant expédition, pour des foreuses qui tournent sans surprise.",
+  "why.5t":"Équipe expérimentée","why.5p":"Des années sur le terrain et des liens durables avec les usines : le bon choix à chaque commande.",
 
   "contact.eyebrow":"Entrer en contact",
   "contact.title":"Parlons équipement",

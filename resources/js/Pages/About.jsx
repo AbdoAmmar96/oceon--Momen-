@@ -1,27 +1,42 @@
 import Layout from '../components/Layout';
 import { useI18n } from '../hooks/useI18n';
 import { CtaBand, PageHero, SectionHead } from '../components/ui';
-import { IcCheck, IcTarget, IcDrillSvc, IcGlobe } from '../components/Icons';
+import { IcCheck, IcGlobe, IcTruck, IcDrillSvc, IcBadge, IcUsers } from '../components/Icons';
 import { Values, PartnersSection } from './Home';
 
-function WhyCard({ Icon, t, i }) {
-    return (
-        <div className={`mv ${i === 1 ? 'fire' : ''}`} style={{ transitionDelay: `${i * 0.08}s` }}>
-            <span className="mv-ico"><Icon /></span>
-            <h3>{t(`why.${i + 1}t`)}</h3>
-            <p>{t(`why.${i + 1}p`)}</p>
-        </div>
-    );
-}
+// The client's five reasons to choose Ocean Drilling.
+const WHY = [
+    { Icon: IcGlobe, i: 1 },
+    { Icon: IcTruck, i: 2 },
+    { Icon: IcDrillSvc, i: 3 },
+    { Icon: IcBadge, i: 4 },
+    { Icon: IcUsers, i: 5 },
+];
 
 export default function About() {
     const { t } = useI18n();
-    const WHY_ICONS = [IcTarget, IcDrillSvc, IcGlobe];
     return (
         <>
             <PageHero titleKey="ph.about_t" ledeKey="ph.about_l" bg="/img/hero/h2.jpg" />
 
+            {/* Why Choose Ocean Drilling — five reasons */}
             <section className="sec">
+                <div className="wrap">
+                    <SectionHead center eyebrow={t('why.eyebrow')} title={t('why.title')} />
+                    <div className="why-grid" data-rvs="">
+                        {WHY.map(({ Icon, i }) => (
+                            <div className="why-card" key={i} style={{ transitionDelay: `${(i - 1) * 0.07}s` }}>
+                                <span className="why-ico"><Icon /></span>
+                                <h3>{t(`why.${i}t`)}</h3>
+                                <p>{t(`why.${i}p`)}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Who we are — intro copy with a real drilling photo */}
+            <section className="sec alt">
                 <div className="wrap about-grid">
                     <div className="about-copy" data-rv="left">
                         <span className="eyebrow">{t('about.eyebrow')}</span>
@@ -36,39 +51,12 @@ export default function About() {
                     </div>
                     <div className="about-media" data-rv="right">
                         <span className="deco" aria-hidden="true" />
-                        <div className="ph"><img src="/img/about1.jpg" alt="Ocean Drilling & Trading" loading="lazy" /></div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="sec alt">
-                <div className="wrap">
-                    <div className="mv-grid" data-rvs="">
-                        <div className="mv">
-                            <span className="mv-ico"><IcTarget /></span>
-                            <h3>{t('mv.v_t')}</h3>
-                            <p>{t('mv.v_p')}</p>
-                        </div>
-                        <div className="mv fire">
-                            <span className="mv-ico"><IcDrillSvc /></span>
-                            <h3>{t('mv.m_t')}</h3>
-                            <p>{t('mv.m_p')}</p>
-                        </div>
+                        <div className="ph"><img src="/img/why-ocean.jpg" alt="Ocean Drilling & Trading rig" loading="lazy" /></div>
                     </div>
                 </div>
             </section>
 
             <Values />
-
-            <section className="sec alt">
-                <div className="wrap">
-                    <SectionHead center eyebrow={t('why.eyebrow')} title={t('why.title')} />
-                    <div className="mv-grid" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))' }} data-rvs="">
-                        {WHY_ICONS.map((Icon, i) => <WhyCard key={i} Icon={Icon} t={t} i={i} />)}
-                    </div>
-                </div>
-            </section>
-
             <PartnersSection />
             <CtaBand />
         </>
