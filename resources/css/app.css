@@ -1390,3 +1390,22 @@ html[dir="rtl"] .prod-search input{padding:.9rem 2.9rem .9rem 1.1rem}
 }
 .prod-pdf svg{width:15px;height:15px}
 .prod-pdf:hover{background:var(--sand-2);border-color:var(--blue)}
+
+/* ============================================================
+   Hero: background video reel + new statement headline + 4 stats
+   ============================================================ */
+.hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.9}
+.hero-video iframe{
+  position:absolute;top:50%;left:50%;translate:-50% -50%;
+  width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;border:0;
+  /* Overscale so YouTube's title bar / control strip fall outside the crop. */
+  scale:1.35;
+}
+/* The video is decorative; the veil above it keeps text readable. */
+.hero-title{font-size:clamp(2rem,4.7vw,3.7rem);line-height:1.08;max-width:20ch;font-weight:800}
+html[lang="ar"] .hero-title{line-height:1.25}
+/* Four stats: let them wrap to 2×2 on narrow screens. */
+@media (max-width:560px){
+  .hero-stats{gap:1.1rem 1.6rem}
+  .hstat{flex:1 1 40%}
+}

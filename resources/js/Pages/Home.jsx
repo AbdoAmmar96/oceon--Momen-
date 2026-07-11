@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import AdvertiseHere from '../components/AdvertiseHere';
 import { useI18n } from '../hooks/useI18n';
 import {
-    Bubbles, Counter, CtaBand, FlipWord, Marquee, Partners, SectionHead,
+    Bubbles, Counter, CtaBand, Marquee, Partners, SectionHead,
 } from '../components/ui';
 import {
     BrandIcon, CatIcon, IcArrow, IcCheck, IcDrillSvc, IcTradeSvc,
@@ -22,6 +22,14 @@ function Words({ text, base = 0 }) {
     ));
 }
 
+// Background reel for the hero (muted, looped, no chrome). Falls back to the
+// image slides underneath while it loads or if autoplay is blocked.
+const HERO_VIDEO_ID = 'Su3Rf5pFQyM';
+const HERO_VIDEO_SRC = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}`
+    + `?autoplay=1&mute=1&controls=0&loop=1&playlist=${HERO_VIDEO_ID}`
+    + '&playsinline=1&modestbranding=1&rel=0&showinfo=0&disablekb=1&fs=0'
+    + '&iv_load_policy=3&cc_load_policy=0&cc_lang_pref=none';
+
 function Hero() {
     const { t, lang } = useI18n();
     const [slide, setSlide] = useState(0);
@@ -38,14 +46,21 @@ function Hero() {
         return () => clearTimeout(raf);
     }, [lang]);
 
-    const flips = [t('hero.flip1'), t('hero.flip2'), t('hero.flip3'), t('hero.flip4')];
-
     return (
         <section className={`hero ${ready ? 'ready' : ''}`}>
             <div className="hero-slides" aria-hidden="true">
                 {HERO_IMGS.map((src, i) => (
                     <div key={src} className={`slide ${i === slide ? 'on' : ''}`} style={{ backgroundImage: `url(${src})` }} />
                 ))}
+            </div>
+            <div className="hero-video" aria-hidden="true">
+                <iframe
+                    src={HERO_VIDEO_SRC}
+                    title="Ocean Drilling reel"
+                    allow="autoplay; encrypted-media"
+                    frameBorder="0"
+                    tabIndex={-1}
+                />
             </div>
             <div className="hero-veil" aria-hidden="true" />
             <div className="hero-grid" aria-hidden="true" />
@@ -54,10 +69,8 @@ function Hero() {
             <div className="wrap">
                 <div className="hero-inner" key={lang}>
                     <span className="hero-eyebrow">{t('hero.eyebrow')}</span>
-                    <h1>
-                        <Words text={t('hero.t1')} />
-                        <FlipWord words={flips} />
-                        <Words text={t('hero.t2')} base={0.32} />
+                    <h1 className="hero-title">
+                        <Words text={t('hero.title')} />
                     </h1>
                     <p className="hero-sub">{t('hero.sub')}</p>
                     <div className="hero-ctas">
@@ -70,6 +83,7 @@ function Hero() {
                         <Counter value={t('hero.s1n')} label={t('hero.s1l')} />
                         <Counter value={t('hero.s2n')} label={t('hero.s2l')} />
                         <Counter value={t('hero.s3n')} label={t('hero.s3l')} />
+                        <Counter value={t('hero.s4n')} label={t('hero.s4l')} />
                     </div>
                 </div>
             </div>
