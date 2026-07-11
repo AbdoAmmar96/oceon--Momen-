@@ -8,7 +8,7 @@ import {
 } from '../components/ui';
 import {
     BrandIcon, CatIcon, IcArrow, IcCheck, IcDrillSvc, IcTradeSvc,
-    IcTarget, IcShield, IcUsers, IcHands, IcBadge, IcGlobeHeart,
+    IcTarget, IcShield, IcUsers, IcHands, IcBadge, IcGlobeHeart, IcDownload,
 } from '../components/Icons';
 
 const HERO_IMGS = ['/img/hero/h1.jpg', '/img/hero/h2.jpg', '/img/hero/h3.jpg'];
@@ -140,7 +140,7 @@ function Categories({ categories }) {
     );
 }
 
-export function ProductCard({ p, delay = 0, hidden = false }) {
+export function ProductCard({ p, delay = 0, hidden = false, showCatalog = false }) {
     const { t, pick } = useI18n();
     const tag = p.category
         ? pick(p.category, 'name')
@@ -151,6 +151,7 @@ export function ProductCard({ p, delay = 0, hidden = false }) {
         <Link href={`/products/${p.slug}`} className={`prod ${hidden ? 'hide' : ''}`} style={{ transitionDelay: `${delay}s` }}>
             <div className="prod-media">
                 <span className="prod-tag">{tag}</span>
+                {p.brand ? <span className="prod-brand">{p.brand}</span> : null}
                 {p.hp ? <span className="prod-hp">{p.hp} HP</span> : null}
                 {p.image_url
                     ? <img src={p.image_url} alt={pick(p, 'title')} loading="lazy" />
@@ -165,6 +166,16 @@ export function ProductCard({ p, delay = 0, hidden = false }) {
                         {t('prods.view')} <IcArrow />
                     </span>
                 </div>
+                {showCatalog && (
+                    // A button, not a nested <a>, so it stays valid inside the card link.
+                    <button
+                        type="button"
+                        className="prod-pdf"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(p.catalog_url, '_blank', 'noopener'); }}
+                    >
+                        <IcDownload /> {t('prods.pdf')}
+                    </button>
+                )}
             </div>
         </Link>
     );

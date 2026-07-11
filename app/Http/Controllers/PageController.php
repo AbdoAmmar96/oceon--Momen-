@@ -27,6 +27,13 @@ class PageController extends Controller
         return Inertia::render('Products', [
             'products' => Product::with('category')->orderBy('sort')->get(),
             'categories' => Category::withCount('products')->orderBy('sort')->get(),
+            // Only brands actually assigned to products, so empty brands never
+            // show as dead filter chips.
+            'brands' => Product::query()
+                ->whereNotNull('brand')
+                ->distinct()
+                ->orderBy('brand')
+                ->pluck('brand'),
         ]);
     }
 

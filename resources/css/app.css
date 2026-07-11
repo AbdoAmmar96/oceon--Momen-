@@ -1348,3 +1348,45 @@ html[dir="rtl"] .cat-card:hover .cat-arrow svg{translate:-3px 0}
 .st-app-shortlisted{background:rgba(45,212,191,.16);color:#0f766e}
 .st-app-rejected{background:rgba(214,69,69,.12);color:#b02a2a}
 @media (max-width:700px){.job-card{flex-direction:column;align-items:flex-start}}
+
+/* ============================================================
+   Products page: search, category & brand chips, catalogue button
+   ============================================================ */
+.prod-search{
+  position:relative;display:flex;align-items:center;max-width:520px;margin:0 auto 1.6rem;
+}
+.prod-search svg{position:absolute;inset-inline-start:1rem;width:18px;height:18px;color:var(--mut)}
+.prod-search input{
+  width:100%;padding:.9rem 1.1rem .9rem 2.9rem;border:1px solid var(--line);border-radius:999px;
+  font:inherit;background:#fff;transition:border-color .25s,box-shadow .25s;
+}
+html[dir="rtl"] .prod-search input{padding:.9rem 2.9rem .9rem 1.1rem}
+.prod-search input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,159,212,.14)}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;margin-bottom:1rem}
+.chip-row-brand{margin-bottom:1.4rem}
+.chip-label{align-self:center;font-size:.82rem;font-weight:700;color:var(--mut);margin-inline-end:.2rem}
+.chip{
+  display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.05rem;border-radius:999px;
+  border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;font-size:.86rem;
+  cursor:pointer;transition:all .25s;
+}
+.chip em{font-style:normal;font-size:.74rem;color:var(--mut)}
+.chip:hover{border-color:var(--blue)}
+.chip.on{background:var(--navy-800);color:#fff;border-color:var(--navy-800)}
+.chip.on em{color:rgba(255,255,255,.7)}
+.prod-count-bar{display:flex;justify-content:flex-end;margin-bottom:1rem}
+
+.prod-brand{
+  position:absolute;top:.7rem;inset-inline-end:.7rem;z-index:2;
+  background:rgba(4,15,26,.82);color:#fff;font-size:.68rem;font-weight:700;
+  padding:.26rem .6rem;border-radius:6px;letter-spacing:.02em;
+}
+.prod-pdf{
+  display:inline-flex;align-items:center;gap:.4rem;margin-top:.7rem;
+  background:none;border:1px solid var(--line);border-radius:8px;padding:.4rem .8rem;
+  font:inherit;font-size:.78rem;font-weight:600;color:var(--blue-deep);cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.prod-pdf svg{width:15px;height:15px}
+.prod-pdf:hover{background:var(--sand-2);border-color:var(--blue)}

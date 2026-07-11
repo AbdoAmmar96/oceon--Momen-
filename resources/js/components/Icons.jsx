@@ -41,6 +41,9 @@ export const IcChevron = (p) => <Svg {...p}><path d="M6 9l6 6 6-6" /></Svg>;
 export const IcGlobe = (p) => <Svg {...p}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.8 2.6 4 5.6 4 9s-1.2 6.4-4 9c-2.8-2.6-4-5.6-4-9s1.2-6.4 4-9z" /></Svg>;
 export const IcUp = (p) => <Svg {...p}><path d="M12 19V5M6 11l6-6 6 6" /></Svg>;
 export const IcQuote = (p) => <Svg {...p}><path d="M8 6h13M8 12h13M8 18h13" /><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01" strokeWidth="2.6" /></Svg>;
+export const IcSearch = (p) => <Svg {...p}><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></Svg>;
+export const IcDownload = (p) => <Svg {...p}><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></Svg>;
+export const IcWhats = (p) => <Svg {...p}><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z" /><path d="M8.5 8.5c.3 3 2.8 5.6 5.8 6 .8.1 1.5-.4 1.6-1.1l.1-.6-2-.9-1 1a5.6 5.6 0 0 1-2.6-2.6l1-1-.9-2-.6.1c-.7.1-1.2.8-1.1 1.6z" strokeWidth="1.4" /></Svg>;
 
 /* ---------- contact ---------- */
 export const IcPin = (p) => <Svg {...p}><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z" /><circle cx="12" cy="10" r="2.6" /></Svg>;

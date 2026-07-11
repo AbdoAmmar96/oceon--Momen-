@@ -34,6 +34,10 @@ class ProductResource extends Resource
                         'bits' => 'Hammers & bits',
                         'pipes' => 'Pipes & parts',
                     ])->required()->label('Public filter group'),
+                Forms\Components\Select::make('brand')
+                    ->options(array_combine(Product::BRANDS, Product::BRANDS))
+                    ->searchable()->label('Brand')
+                    ->helperText('Powers the Brands filter on the products page.'),
                 Forms\Components\TextInput::make('hp')->numeric()->label('Horsepower (badge)'),
                 Forms\Components\TextInput::make('price_note')
                     ->label('Price note')->placeholder('Empty = price on request'),
@@ -70,6 +74,12 @@ class ProductResource extends Resource
                     ->label('Gallery images')
                     ->helperText('Extra photos shown on the product page. Drag to reorder.')
                     ->columnSpanFull(),
+                Forms\Components\FileUpload::make('catalog_pdf')
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->disk('public')->directory('catalogs')
+                    ->label('Catalogue (PDF)')
+                    ->helperText('Per-product spec sheet. Until set, a placeholder is offered.')
+                    ->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -82,6 +92,8 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('title_en')->label('Title')->searchable()->wrap(),
                 Tables\Columns\TextColumn::make('group')->badge()
                     ->colors(['primary' => 'rigs', 'warning' => 'bits', 'info' => 'pipes']),
+                Tables\Columns\TextColumn::make('brand')->badge()->color('gray')->placeholder('—')->toggleable(),
+                Tables\Columns\IconColumn::make('catalog_pdf')->label('PDF')->boolean()->toggleable(),
                 Tables\Columns\TextColumn::make('hp')->label('HP')->sortable(),
                 Tables\Columns\ToggleColumn::make('is_featured')->label('Featured'),
                 Tables\Columns\TextColumn::make('sort')->sortable(),
@@ -91,6 +103,7 @@ class ProductResource extends Resource
                 Tables\Filters\SelectFilter::make('group')->options([
                     'rigs' => 'Drill rigs', 'bits' => 'Hammers & bits', 'pipes' => 'Pipes & parts',
                 ]),
+                Tables\Filters\SelectFilter::make('brand')->options(array_combine(Product::BRANDS, Product::BRANDS)),
                 Tables\Filters\TernaryFilter::make('is_featured'),
             ])
             ->actions([
