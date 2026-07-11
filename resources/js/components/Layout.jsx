@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { I18nProvider, useI18n } from '../hooks/useI18n';
 import { useReveal } from '../hooks/useReveal';
@@ -343,9 +343,14 @@ function WhatsFloat() {
 }
 
 function Shell({ children }) {
-    const { t } = useI18n();
+    const { t, lang } = useI18n();
     const { component } = usePage();
     useReveal();
+    // Keep the single server-rendered <title> element in sync on SPA navigation
+    // and language change — using Inertia's <Head> here duplicated the tag.
+    useEffect(() => {
+        document.title = t(META[component] || 'meta.home');
+    }, [component, lang, t]);
     // Always land at the top of the page after navigating between pages.
     useEffect(() => {
         if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
@@ -362,7 +367,6 @@ function Shell({ children }) {
     }, []);
     return (
         <>
-            <Head><title>{t(META[component] || 'meta.home')}</title></Head>
             <Preloader />
             <Header />
             <main>{children}</main>

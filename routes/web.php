@@ -8,7 +8,10 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
