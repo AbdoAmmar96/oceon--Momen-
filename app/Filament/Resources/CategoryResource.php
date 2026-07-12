@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
+use App\Rules\LanguageScript;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -32,14 +33,17 @@ class CategoryResource extends Resource
             ])->columns(3),
             Forms\Components\Tabs::make('Names')->tabs([
                 Forms\Components\Tabs\Tab::make('English')->schema([
-                    Forms\Components\TextInput::make('name_en')->label('Name (EN)')->required(),
+                    Forms\Components\TextInput::make('name_en')->label('Name (EN)')->required()
+                        ->rule(new LanguageScript('latin')),
                 ]),
                 Forms\Components\Tabs\Tab::make('العربية')->schema([
                     Forms\Components\TextInput::make('name_ar')->label('الاسم (AR)')
-                        ->required()->extraInputAttributes(['dir' => 'rtl']),
+                        ->required()->extraInputAttributes(['dir' => 'rtl'])
+                        ->rule(new LanguageScript('arabic')),
                 ]),
                 Forms\Components\Tabs\Tab::make('Français')->schema([
-                    Forms\Components\TextInput::make('name_fr')->label('Nom (FR)')->required(),
+                    Forms\Components\TextInput::make('name_fr')->label('Nom (FR)')->required()
+                        ->rule(new LanguageScript('latin')),
                 ]),
             ])->columnSpanFull(),
         ]);

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
+use App\Rules\LanguageScript;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -47,17 +48,20 @@ class ProductResource extends Resource
             Forms\Components\Tabs::make('Content')->tabs([
                 Forms\Components\Tabs\Tab::make('English')->schema([
                     Forms\Components\TextInput::make('title_en')->required()
+                        ->rule(new LanguageScript('latin'))
                         ->live(onBlur: true)
                         ->afterStateUpdated(fn ($state, Forms\Set $set, ?Product $record) => $record ? null : $set('slug', Str::slug($state))),
-                    Forms\Components\Textarea::make('meta_en')->rows(3),
+                    Forms\Components\Textarea::make('meta_en')->rows(3)->rule(new LanguageScript('latin')),
                 ]),
                 Forms\Components\Tabs\Tab::make('العربية')->schema([
-                    Forms\Components\TextInput::make('title_ar')->required()->extraInputAttributes(['dir' => 'rtl']),
-                    Forms\Components\Textarea::make('meta_ar')->rows(3)->extraInputAttributes(['dir' => 'rtl']),
+                    Forms\Components\TextInput::make('title_ar')->required()->extraInputAttributes(['dir' => 'rtl'])
+                        ->rule(new LanguageScript('arabic')),
+                    Forms\Components\Textarea::make('meta_ar')->rows(3)->extraInputAttributes(['dir' => 'rtl'])
+                        ->rule(new LanguageScript('arabic')),
                 ]),
                 Forms\Components\Tabs\Tab::make('Français')->schema([
-                    Forms\Components\TextInput::make('title_fr')->required(),
-                    Forms\Components\Textarea::make('meta_fr')->rows(3),
+                    Forms\Components\TextInput::make('title_fr')->required()->rule(new LanguageScript('latin')),
+                    Forms\Components\Textarea::make('meta_fr')->rows(3)->rule(new LanguageScript('latin')),
                 ]),
             ])->columnSpanFull(),
             Forms\Components\Section::make('Media & slug')->schema([
