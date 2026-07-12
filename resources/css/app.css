@@ -158,7 +158,7 @@ html[dir="rtl"] .nav-item.has-dd:hover .nav-dd{translate:50% 0}
   box-shadow:0 26px 64px rgba(4,15,26,.5);
 }
 .nav-dd-link{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem .85rem;
+  display:flex;align-items:center;justify-content:flex-start;gap:.5rem;padding:.55rem .85rem;
   border-radius:9px;color:#dbe7ef;font-size:.86rem;font-weight:600;transition:background .25s,color .25s;
 }
 .nav-dd-link::after{display:none}
@@ -553,9 +553,12 @@ html[dir="rtl"] .select-wrap select{padding:.62rem 1rem .62rem 2.6rem}
 .prod-body{padding:1.15rem 1.2rem 1.25rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
 /* Clamp title & meta to a fixed number of lines so every card is the same
    shape and the footer (price / details / catalogue) aligns across the row. */
-.prod-body h3{font-size:1.05rem;color:var(--navy-800);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.prod-meta{font-size:.85rem;color:var(--mut);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.prod-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.7rem}
+.prod-body h3{font-size:1.05rem;color:var(--navy-800);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(2 * 1.32em)}
+/* Description: single line, ellipsis if longer. */
+.prod-meta{font-size:.85rem;color:var(--mut);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Footer sits just below the copy (small gap), not pushed to the far bottom.
+   Title reserves two lines so cards stay the same height and footers align. */
+.prod-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.15rem;padding-top:0}
 .prod-price{font-family:var(--font-m);font-size:.78rem;color:var(--blue);letter-spacing:.06em}
 .prod-link{display:inline-flex;align-items:center;gap:.35rem;font-weight:700;font-size:.85rem;color:var(--orange-deep)}
 .prod-link svg{transition:translate .35s}
@@ -953,7 +956,7 @@ html[lang="ar"] .sec-head p{line-height:1.95}
 
 /* card & list rhythm */
 .sec-head{gap:1rem}
-.prod-body{gap:.62rem}
+.prod-body{gap:.35rem}
 .prod-body h3{line-height:1.32}
 .prod-meta{line-height:1.62}
 .tick-list{gap:.85rem}

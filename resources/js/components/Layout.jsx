@@ -190,7 +190,6 @@ function Header() {
                                             {cats.map((c) => (
                                                 <Link key={c.id} href={`/products?cat=${c.id}`} className="nav-dd-link" role="menuitem">
                                                     <span>{pick(c, 'name')}</span>
-                                                    <em>{c.products_count}</em>
                                                 </Link>
                                             ))}
                                         </div>
