@@ -94,7 +94,7 @@ en: {
   "about.li2":"Full joinery, electrical & fabrication workshop",
   "about.li3":"Export documentation & logistics handled end-to-end",
   "about.li4":"Genuine equipment — inspected before it ships",
-  "about.badge_t":"Since day one","about.badge_s":"Built on trust",
+  "about.badge_t":"Drilling equipment","about.badge_s":"Built on trust",
   "about.more":"More about us",
 
   "cats.eyebrow":"What we supply",
@@ -301,7 +301,7 @@ ar: {
   "about.li2":"ورشة متكاملة للنجارة والكهرباء والتصنيع",
   "about.li3":"مستندات التصدير واللوجستيات من الباب للباب",
   "about.li4":"معدات أصلية — تُفحص قبل الشحن",
-  "about.badge_t":"من أول يوم","about.badge_s":"مبنيّون على الثقة",
+  "about.badge_t":"معدّات الحفر","about.badge_s":"مبنيّون على الثقة",
   "about.more":"اعرف المزيد عنا",
 
   "cats.eyebrow":"ماذا نورّد",
@@ -508,7 +508,7 @@ fr: {
   "about.li2":"Atelier complet : menuiserie, électricité & fabrication",
   "about.li3":"Documentation export & logistique de bout en bout",
   "about.li4":"Équipements d'origine — inspectés avant expédition",
-  "about.badge_t":"Depuis le premier jour","about.badge_s":"Bâtis sur la confiance",
+  "about.badge_t":"Équipement de forage","about.badge_s":"Bâtis sur la confiance",
   "about.more":"En savoir plus",
 
   "cats.eyebrow":"Ce que nous fournissons",

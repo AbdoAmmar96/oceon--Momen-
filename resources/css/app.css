@@ -1394,7 +1394,10 @@ html[dir="rtl"] .prod-search input{padding:.9rem 2.9rem .9rem 1.1rem}
 /* ============================================================
    Hero: background video reel + new statement headline + 4 stats
    ============================================================ */
-.hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.9}
+/* Start hidden and reveal once YouTube is actually playing, so its initial
+   poster/play-button never flashes over the hero (the image slide shows until then). */
+.hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:0;animation:heroVidReveal .8s ease 1.4s forwards}
+@keyframes heroVidReveal{from{opacity:0}to{opacity:.9}}
 .hero-video iframe{
   position:absolute;top:50%;left:50%;translate:-50% -50%;
   width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;border:0;
