@@ -550,9 +550,11 @@ html[dir="rtl"] .select-wrap select{padding:.62rem 1rem .62rem 2.6rem}
   background:var(--grad-fire);color:#fff;font-family:var(--font-d);font-weight:800;
   padding:.35rem .8rem;border-radius:9px;font-size:.86rem;box-shadow:0 8px 20px -6px rgba(20,159,212,.6);
 }
-.prod-body{padding:1.15rem 1.2rem 1.25rem;display:grid;gap:.5rem;flex:1;align-content:start}
-.prod-body h3{font-size:1.05rem;color:var(--navy-800)}
-.prod-meta{font-size:.85rem;color:var(--mut);line-height:1.5}
+.prod-body{padding:1.15rem 1.2rem 1.25rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+/* Clamp title & meta to a fixed number of lines so every card is the same
+   shape and the footer (price / details / catalogue) aligns across the row. */
+.prod-body h3{font-size:1.05rem;color:var(--navy-800);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-meta{font-size:.85rem;color:var(--mut);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .prod-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.7rem}
 .prod-price{font-family:var(--font-m);font-size:.78rem;color:var(--blue);letter-spacing:.06em}
 .prod-link{display:inline-flex;align-items:center;gap:.35rem;font-weight:700;font-size:.85rem;color:var(--orange-deep)}
