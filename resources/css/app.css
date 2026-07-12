@@ -159,6 +159,8 @@ html[dir="rtl"] .nav-item.has-dd:hover .nav-dd{translate:50% 0}
 }
 .nav-dd-link{
   display:flex;align-items:center;justify-content:flex-start;gap:.5rem;padding:.55rem .85rem;
+  /* inset each item so its hover highlight has breathing room left & right */
+  margin-inline:.4rem;
   border-radius:9px;color:#dbe7ef;font-size:.86rem;font-weight:600;transition:background .25s,color .25s;
 }
 .nav-dd-link::after{display:none}
