@@ -125,7 +125,8 @@ html[lang="ar"] :is(h1,h2,h3,h4){letter-spacing:0;line-height:1.35;font-weight:7
 .site-head.scrolled .brand-plate{padding:5px 12px}
 .site-head.scrolled .brand-plate img{height:33px}
 
-.main-nav{display:flex;gap:clamp(.7rem,1.4vw,1.4rem);margin-inline-start:auto}
+/* Centre the nav between the logo and the right-side actions. */
+.main-nav{display:flex;gap:clamp(.7rem,1.4vw,1.4rem);margin-inline:auto}
 .main-nav a{
   position:relative;color:#e8f1f7;font-weight:600;font-size:.94rem;padding:.4rem 0;
   transition:color .3s;white-space:nowrap;
