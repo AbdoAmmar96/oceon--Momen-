@@ -110,7 +110,7 @@ html[lang="ar"] :is(h1,h2,h3,h4){letter-spacing:0;line-height:1.35;font-weight:7
   border-bottom:1px solid var(--line-l);
   transition:background .45s,box-shadow .45s,height .45s,backdrop-filter .45s;
 }
-.site-head .wrap{display:flex;align-items:center;gap:clamp(.8rem,1.8vw,1.6rem)}
+.site-head .wrap{display:flex;align-items:center;gap:clamp(.8rem,1.8vw,1.6rem);position:relative}
 .site-head.scrolled{
   height:64px;background:rgba(4,15,26,.95);
   box-shadow:0 10px 40px rgba(4,15,26,.35);
@@ -127,8 +127,9 @@ html[lang="ar"] :is(h1,h2,h3,h4){letter-spacing:0;line-height:1.35;font-weight:7
 .site-head.scrolled .brand-plate{padding:5px 12px}
 .site-head.scrolled .brand-plate img{height:33px}
 
-/* Centred by the equal-width .brand / .head-actions flanks around it. */
-.main-nav{display:flex;gap:clamp(.7rem,1.4vw,1.4rem);flex-shrink:0}
+/* Absolutely centred in the header so it sits at true page centre regardless
+   of how wide the logo or the right-side actions are. */
+.main-nav{display:flex;gap:clamp(.7rem,1.4vw,1.4rem);position:absolute;top:50%;left:50%;translate:-50% -50%}
 .main-nav a{
   position:relative;color:#e8f1f7;font-weight:600;font-size:.94rem;padding:.4rem 0;
   transition:color .3s;white-space:nowrap;
