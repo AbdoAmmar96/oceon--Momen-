@@ -1418,8 +1418,9 @@ html[lang="ar"] .hero-title{line-height:1.25}
 @media (max-width:560px){
   .hero-stats{gap:1.1rem 1.6rem}
   .hstat{flex:1 1 40%}
-  /* Smaller hero headline on phones so the long statement fits comfortably. */
-  .hero-title{font-size:clamp(1.5rem,6.2vw,1.95rem);line-height:1.18}
+  /* Smaller hero headline on phones so the long statement fits comfortably.
+     Uses .hero h1.hero-title to outrank the base ".hero h1" size rule. */
+  .hero h1.hero-title{font-size:clamp(1.45rem,6.4vw,1.9rem);line-height:1.2}
 }
 
 /* ============================================================
