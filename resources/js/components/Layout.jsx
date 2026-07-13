@@ -206,12 +206,14 @@ function Header() {
                             )
                         ))}
                     </nav>
-                    <LangSwitch />
-                    <AccountNav />
-                    <Link href="/contact" className="btn head-cta">{t('nav.quote')}</Link>
-                    <button className={`burger ${menu ? 'open' : ''}`} onClick={() => setMenu(!menu)} aria-label="Menu" aria-expanded={menu}>
-                        <span /><span /><span />
-                    </button>
+                    <div className="head-actions">
+                        <LangSwitch />
+                        <AccountNav />
+                        <Link href="/contact" className="btn head-cta">{t('nav.quote')}</Link>
+                        <button className={`burger ${menu ? 'open' : ''}`} onClick={() => setMenu(!menu)} aria-label="Menu" aria-expanded={menu}>
+                            <span /><span /><span />
+                        </button>
+                    </div>
                 </div>
             </header>
             <div className={`m-menu ${menu ? 'open' : ''}`}>
