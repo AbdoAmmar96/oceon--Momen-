@@ -146,7 +146,7 @@ html[dir="rtl"] .main-nav a::after{--tf-origin:right}
 .nav-item.has-dd:hover .dd-caret{transform:rotate(180deg)}
 .nav-dd{
   position:absolute;top:100%;inset-inline-start:50%;translate:-50% 10px;
-  min-width:440px;max-width:min(560px,88vw);padding-top:16px;z-index:80;
+  min-width:480px;max-width:min(680px,92vw);padding-top:16px;z-index:80;
   opacity:0;pointer-events:none;transition:opacity .3s var(--e-out),translate .3s var(--e-out);
 }
 html[dir="rtl"] .nav-dd{translate:50% 10px}
@@ -154,15 +154,17 @@ html[dir="rtl"] .nav-dd{translate:50% 10px}
 html[dir="rtl"] .nav-item.has-dd:hover .nav-dd{translate:50% 0}
 .nav-dd-grid{
   background:rgba(6,24,42,.97);backdrop-filter:blur(14px);border:1px solid var(--line-l);
-  border-radius:var(--r-md);padding:.7rem;display:grid;grid-template-columns:1fr 1fr;gap:3px 1.4rem;
+  border-radius:var(--r-md);padding:.7rem;display:grid;grid-template-columns:1fr 1fr;gap:3px 1rem;
   box-shadow:0 26px 64px rgba(4,15,26,.5);
 }
 .nav-dd-link{
   display:flex;align-items:center;justify-content:flex-start;gap:.5rem;padding:.55rem .85rem;
   /* inset each item so its hover highlight has breathing room left & right */
-  margin-inline:.4rem;
+  margin-inline:.4rem;min-width:0;
   border-radius:9px;color:#dbe7ef;font-size:.86rem;font-weight:600;transition:background .25s,color .25s;
 }
+/* keep long labels on one line, contained within the panel */
+.nav-dd-link span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nav-dd-link::after{display:none}
 .nav-dd-link:hover{background:rgba(41,182,232,.14);color:#fff}
 .nav-dd-link em{font-style:normal;font-family:var(--font-m);font-size:.72rem;color:var(--cyan);opacity:.85}
