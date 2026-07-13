@@ -6,6 +6,26 @@ import { CtaBand, PageHero } from '../components/ui';
 import { ProductCard } from './Home';
 import { IcSearch } from '../components/Icons';
 
+/**
+ * Fold text so search is forgiving: lowercase, strip Latin accents (é→e) and
+ * Arabic diacritics/tatweel, and unify alef/ya/ta-marbuta variants. Lets an
+ * Arabic, English or French query match regardless of accents or spelling of
+ * those letters.
+ */
+function fold(s) {
+    return (s ?? '')
+        .toString()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')          // Latin combining accents (é→e)
+        .replace(/[ً-ٰٟـ]/g, '') // Arabic tashkeel, hamza marks, tatweel
+        .replace(/[أإآ]/g, 'ا') // أ إ آ → ا (for already-composed input)
+        .replace(/ى/g, 'ي')             // ى → ي
+        .replace(/ة/g, 'ه')             // ة → ه
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
 /** Read the ?cat= query param and validate it against the loaded products. */
 function catFromUrl(products) {
     if (typeof window === 'undefined') return 'all';
@@ -26,22 +46,39 @@ export default function Products({ products, categories, brands = [] }) {
     // Keep the selected category in sync when arriving via a ?cat= link.
     useEffect(() => { setCat(catFromUrl(products)); }, [url]);
 
-    const needle = q.trim().toLowerCase();
+    // Pre-fold every product's searchable text once: names, descriptions and
+    // category in all three languages, plus brand / group / horsepower.
+    const haystacks = useMemo(() => {
+        const map = new Map();
+        for (const p of products) {
+            const parts = [
+                p.title_en, p.title_ar, p.title_fr,
+                p.meta_en, p.meta_ar, p.meta_fr,
+                p.brand, p.group, p.hp,
+                p.category?.name_en, p.category?.name_ar, p.category?.name_fr,
+            ];
+            map.set(p.id, fold(parts.filter(Boolean).join(' ')));
+        }
+        return map;
+    }, [products]);
+
+    // Split the query into words; a product matches when it contains every word
+    // (in any order), so "atlas rd20" finds "Atlas Copco RD20".
+    const tokens = fold(q).split(' ').filter(Boolean);
 
     // A product is visible when it matches the active category, brand and search.
     const matches = useMemo(() => {
         const test = (p) => {
             if (cat !== 'all' && p.category_id !== cat) return false;
             if (brand !== 'all' && p.brand !== brand) return false;
-            if (needle) {
-                const hay = [p.title_en, p.title_ar, p.title_fr, p.meta_en, p.brand]
-                    .filter(Boolean).join(' ').toLowerCase();
-                if (!hay.includes(needle)) return false;
+            if (tokens.length) {
+                const hay = haystacks.get(p.id) || '';
+                if (!tokens.every((tk) => hay.includes(tk))) return false;
             }
             return true;
         };
         return new Set(products.filter(test).map((p) => p.id));
-    }, [products, cat, brand, needle]);
+    }, [products, cat, brand, tokens.join(' '), haystacks]);
 
     return (
         <>
