@@ -24,3 +24,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+# Local dev artifacts — never ship these
+/composer.phar
+/database/*.sqlite
+/database/*.sqlite-journal

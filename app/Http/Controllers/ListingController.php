@@ -43,14 +43,14 @@ class ListingController extends Controller
         $data = $this->validated($request);
 
         $listing = new Listing([
-            ...Arr::except($data, ['image', 'images']),
+            ...Arr::except($data, ['image', 'images', 'catalog_pdf']),
             'user_id' => $request->user()->id,
             'slug' => Listing::uniqueSlug($data['title']),
             // Every submission starts hidden; an admin must approve it.
             'status' => Listing::STATUS_PENDING,
         ]);
 
-        $this->attachImages($request, $listing);
+        $this->attachFiles($request, $listing);
         $listing->save();
 
         return redirect()->route('dashboard')
@@ -73,9 +73,9 @@ class ListingController extends Controller
         $this->authorizeOwner($request, $listing);
 
         $data = $this->validated($request);
-        $listing->fill(Arr::except($data, ['image', 'images']));
+        $listing->fill(Arr::except($data, ['image', 'images', 'catalog_pdf']));
 
-        $this->attachImages($request, $listing);
+        $this->attachFiles($request, $listing);
 
         // Edited content has not been reviewed, so it goes back into the queue.
         $listing->status = Listing::STATUS_PENDING;
@@ -111,6 +111,7 @@ class ListingController extends Controller
         return $request->validate([
             'type' => ['required', Rule::in(Listing::TYPES)],
             'title' => ['required', 'string', 'max:180'],
+            'model' => ['nullable', 'string', 'max:160'],
             'description' => ['required', 'string', 'max:5000'],
             'category_id' => ['nullable', 'exists:categories,id'],
             'price' => ['nullable', 'numeric', 'min:0', 'max:99999999'],
@@ -122,6 +123,7 @@ class ListingController extends Controller
             'image' => ['nullable', 'image', 'max:4096'],
             'images' => ['nullable', 'array', 'max:8'],
             'images.*' => ['image', 'max:4096'],
+            'catalog_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
         ]);
     }
 
@@ -129,7 +131,7 @@ class ListingController extends Controller
      * Uploads land on the public disk, which is symlinked into the web root,
      * so the model's resolveUrl() can serve them straight from storage.
      */
-    private function attachImages(Request $request, Listing $listing): void
+    private function attachFiles(Request $request, Listing $listing): void
     {
         if ($request->hasFile('image')) {
             $listing->image = $request->file('image')->store('listings', 'public');
@@ -140,6 +142,10 @@ class ListingController extends Controller
                 fn ($file) => $file->store('listings', 'public'),
                 $request->file('images'),
             );
+        }
+
+        if ($request->hasFile('catalog_pdf')) {
+            $listing->catalog_pdf = $request->file('catalog_pdf')->store('listing-catalogs', 'public');
         }
     }
 }

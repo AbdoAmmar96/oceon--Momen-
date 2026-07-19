@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import AdvertiseHere from '../components/AdvertiseHere';
 import { useI18n } from '../hooks/useI18n';
+import { useRfq } from '../hooks/useRfq';
 import {
-    Bubbles, Counter, CtaBand, Marquee, Partners, SectionHead,
+    Bubbles, Counter, CtaBand, Faq, Marquee, Partners, SectionHead,
 } from '../components/ui';
 import {
     BrandIcon, CatIcon, IcArrow, IcCheck, IcDrillSvc, IcTradeSvc,
-    IcTarget, IcShield, IcUsers, IcHands, IcBadge, IcGlobeHeart, IcDownload,
+    IcTarget, IcShield, IcUsers, IcHands, IcBadge, IcGlobeHeart, IcDownload, IcPlus,
 } from '../components/Icons';
 
 const HERO_IMGS = ['/img/hero/h1.jpg', '/img/hero/h2.jpg', '/img/hero/h3.jpg'];
@@ -154,8 +155,10 @@ function Categories({ categories }) {
     );
 }
 
-export function ProductCard({ p, delay = 0, hidden = false, showCatalog = false }) {
+export function ProductCard({ p, delay = 0, hidden = false, showCatalog = false, showRfq = false }) {
     const { t, pick } = useI18n();
+    const rfq = useRfq();
+    const inRfq = rfq.has(p.id);
     const tag = p.category
         ? pick(p.category, 'name')
         : t(p.group === 'rigs' ? 'prods.tag_rig' : p.group === 'bits' ? 'prods.tag_bit' : 'prods.tag_pipe');
@@ -180,15 +183,28 @@ export function ProductCard({ p, delay = 0, hidden = false, showCatalog = false 
                         {t('prods.view')} <IcArrow />
                     </span>
                 </div>
-                {showCatalog && (
-                    // A button, not a nested <a>, so it stays valid inside the card link.
-                    <button
-                        type="button"
-                        className="prod-pdf"
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(p.catalog_url, '_blank', 'noopener'); }}
-                    >
-                        <IcDownload /> {t('prods.pdf')}
-                    </button>
+                {(showCatalog || showRfq) && (
+                    // Buttons, not nested <a>, so they stay valid inside the card link.
+                    <div className="prod-btns">
+                        {showRfq && (
+                            <button
+                                type="button"
+                                className={`prod-rfq ${inRfq ? 'in' : ''}`}
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); inRfq ? rfq.remove(p.id) : rfq.add(p.id); }}
+                            >
+                                {inRfq ? <><IcCheck /> {t('qf.in_rfq')}</> : <><IcPlus /> {t('qf.add_rfq')}</>}
+                            </button>
+                        )}
+                        {showCatalog && (
+                            <button
+                                type="button"
+                                className="prod-pdf"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(p.catalog_url, '_blank', 'noopener'); }}
+                            >
+                                <IcDownload /> {t('prods.pdf')}
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
         </Link>
@@ -197,17 +213,34 @@ export function ProductCard({ p, delay = 0, hidden = false, showCatalog = false 
 
 function Featured({ featured }) {
     const { t } = useI18n();
+    if (!featured || featured.length === 0) return null;
     return (
         <section className="sec">
             <div className="wrap">
                 <SectionHead eyebrow={t('prods.eyebrow')} title={t('prods.title')} sub={t('prods.sub')} />
                 <div className="prod-grid" data-rvs="">
-                    {featured.map((p, i) => <ProductCard key={p.id} p={p} delay={(i % 4) * 0.06} />)}
+                    {featured.map((p, i) => <ProductCard key={p.id} p={p} delay={(i % 4) * 0.06} showRfq />)}
                 </div>
                 <div style={{ textAlign: 'center', marginTop: '2.4rem' }} data-rv="">
                     <Link href="/products" className="btn ghost dark">
                         {t('prods.all_btn')} <IcArrow className="arr" style={{ width: 18, height: 18 }} />
                     </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// Newest products, so the homepage always shows fresh stock (req #3).
+function RecentlyAdded({ recent }) {
+    const { t } = useI18n();
+    if (!recent || recent.length === 0) return null;
+    return (
+        <section className="sec alt">
+            <div className="wrap">
+                <SectionHead center eyebrow={t('recent.eyebrow')} title={t('recent.title')} sub={t('recent.sub')} />
+                <div className="prod-grid" data-rvs="">
+                    {recent.map((p, i) => <ProductCard key={p.id} p={p} delay={(i % 4) * 0.06} showRfq />)}
                 </div>
             </div>
         </section>
@@ -279,7 +312,7 @@ export function PartnersSection() {
     );
 }
 
-export default function Home({ categories, featured }) {
+export default function Home({ categories, featured, recent }) {
     const { t } = useI18n();
     return (
         <>
@@ -288,7 +321,8 @@ export default function Home({ categories, featured }) {
             <AboutPreview />
             <Categories categories={categories} />
             <Featured featured={featured} />
-            <section className="sec alt">
+            <RecentlyAdded recent={recent} />
+            <section className="sec">
                 <div className="wrap">
                     <SectionHead center eyebrow={t('svc.eyebrow')} title={t('svc.title')} sub={t('svc.sub')} />
                     <ServicesSplit compact />
@@ -297,6 +331,7 @@ export default function Home({ categories, featured }) {
             <Values />
             <AdvertiseHere />
             <PartnersSection />
+            <Faq />
             <CtaBand />
         </>
     );

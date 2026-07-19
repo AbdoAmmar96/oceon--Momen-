@@ -17,20 +17,41 @@ class Listing extends Model
     public const STATUS_REJECTED = 'rejected';
 
     protected $fillable = [
-        'user_id', 'category_id', 'type', 'slug', 'title', 'description',
-        'price', 'currency', 'price_note',
+        'user_id', 'category_id', 'type', 'slug', 'title', 'model', 'description',
+        'price', 'currency', 'price_note', 'commission_pct',
         'contact_phone', 'contact_email', 'location',
-        'image', 'images',
+        'image', 'images', 'catalog_pdf',
         'status', 'admin_note', 'reviewed_at', 'reviewed_by',
     ];
 
     protected $casts = [
         'images' => 'array',
         'price' => 'decimal:2',
+        'commission_pct' => 'decimal:2',
         'reviewed_at' => 'datetime',
     ];
 
-    protected $appends = ['image_url', 'gallery_urls'];
+    protected $appends = ['image_url', 'gallery_urls', 'final_price', 'catalog_url'];
+
+    public function getCatalogUrlAttribute(): ?string
+    {
+        return $this->catalog_pdf ? Storage::disk('public')->url($this->catalog_pdf) : null;
+    }
+
+    /**
+     * The buyer-facing price: the seller's price plus the site's commission.
+     * 0% commission shows the seller's price unchanged.
+     */
+    public function getFinalPriceAttribute(): ?string
+    {
+        if ($this->price === null) {
+            return null;
+        }
+
+        $pct = (float) ($this->commission_pct ?? 0);
+
+        return number_format((float) $this->price * (1 + $pct / 100), 2, '.', '');
+    }
 
     public function user(): BelongsTo
     {

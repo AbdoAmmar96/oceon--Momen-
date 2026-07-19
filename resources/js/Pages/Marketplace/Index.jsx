@@ -49,7 +49,7 @@ export default function Index({ listings, activeType }) {
                                         {l.category && <span className="mk-cat">{pick(l.category, 'name')}</span>}
                                         <div className="mk-foot">
                                             <span className="mk-price">
-                                                {l.price ? `${l.price} ${l.currency}` : t('mk.on_request')}
+                                                {l.final_price ? `${l.final_price} ${l.currency}` : t('mk.on_request')}
                                                 {l.price_note && <em> · {l.price_note}</em>}
                                             </span>
                                             {l.user && <span className="mk-by">{l.user.name}</span>}

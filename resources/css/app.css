@@ -110,26 +110,29 @@ html[lang="ar"] :is(h1,h2,h3,h4){letter-spacing:0;line-height:1.35;font-weight:7
   border-bottom:1px solid var(--line-l);
   transition:background .45s,box-shadow .45s,height .45s,backdrop-filter .45s;
 }
-.site-head .wrap{display:flex;align-items:center;gap:clamp(.8rem,1.8vw,1.6rem);position:relative}
+/* Wider than the page body so the many header controls have room to breathe. */
+.site-head .wrap{width:min(1400px,95%);display:flex;align-items:center;gap:clamp(.9rem,1.7vw,1.8rem);position:relative}
 .site-head.scrolled{
   height:64px;background:rgba(4,15,26,.95);
   box-shadow:0 10px 40px rgba(4,15,26,.35);
 }
-.brand{display:flex;align-items:center;gap:.7rem;flex:1 1 0;min-width:0}
+.brand{display:flex;align-items:center;gap:.7rem;flex:1 0 auto}
 /* Right-side actions balance the logo so the nav sits at true page centre. */
-.head-actions{display:flex;align-items:center;gap:.35rem;flex:1 1 0;justify-content:flex-end}
+.head-actions{display:flex;align-items:center;gap:clamp(.4rem,.85vw,.62rem);flex:1 1 0;justify-content:flex-end}
 .brand-plate{
   display:inline-flex;align-items:center;background:#fff;border-radius:11px;padding:7px 14px;
   box-shadow:0 6px 18px rgba(4,15,26,.28);transition:transform .4s var(--e-spring),box-shadow .4s,padding .4s;
+  /* Never let the busy header squeeze the logo to zero width. */
+  flex:none;
 }
 .brand:hover .brand-plate{transform:translateY(-1px);box-shadow:0 9px 24px rgba(4,15,26,.34)}
-.brand-plate img{height:38px;width:auto;display:block}
+.brand-plate img{height:44px;width:auto;flex:none;display:block;image-rendering:-webkit-optimize-contrast}
 .site-head.scrolled .brand-plate{padding:5px 12px}
-.site-head.scrolled .brand-plate img{height:33px}
+.site-head.scrolled .brand-plate img{height:38px}
 
 /* Centred in the space between the logo and the right-side actions (equal-width
    flanks). A true page-centre would overlap the action buttons on this header. */
-.main-nav{display:flex;gap:clamp(.7rem,1.4vw,1.4rem);flex-shrink:0;justify-content:center}
+.main-nav{display:flex;gap:clamp(.75rem,1.35vw,1.45rem);flex-shrink:0;justify-content:center}
 .main-nav a{
   position:relative;color:#e8f1f7;font-weight:600;font-size:.94rem;padding:.4rem 0;
   transition:color .3s;white-space:nowrap;
@@ -717,15 +720,24 @@ html[dir="rtl"] .val::before{--tf-origin:right}
 /* ============================================================
    PARTNERS
    ============================================================ */
-.partners-track{display:flex;gap:clamp(2.5rem,6vw,5rem);width:max-content;align-items:center;animation:marq 22s linear infinite}
+.partners-track{display:flex;gap:clamp(1.4rem,3vw,2.4rem);width:max-content;align-items:center;animation:marq 40s linear infinite}
 html[dir="rtl"] .partners-track{animation-name:marq-r}
-.partners-wrap{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.partners-wrap{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .partners-wrap:hover .partners-track{animation-play-state:paused}
-.partners-track img{
-  height:56px;width:auto;object-fit:contain;filter:grayscale(1) opacity(.55);
-  transition:filter .4s,transform .4s;
+/* Each brand sits in a white chip so full-colour logos (mostly on white
+   backgrounds) read cleanly on the tinted section. */
+.partner-chip{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  height:96px;width:190px;padding:1rem 1.35rem;border-radius:16px;
+  background:#fff;border:1px solid rgba(4,15,26,.07);
+  box-shadow:0 8px 22px -14px rgba(4,15,26,.35);
+  transition:transform .4s var(--e-out),box-shadow .4s var(--e-out);
 }
-.partners-track img:hover{filter:grayscale(0) opacity(1);transform:scale(1.08)}
+.partner-chip img{
+  max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;
+  filter:none;opacity:1;display:block;
+}
+.partner-chip:hover{transform:translateY(-4px);box-shadow:0 16px 30px -16px rgba(4,15,26,.45)}
 
 /* ============================================================
    CTA BAND
@@ -897,6 +909,12 @@ html[lang="ar"] .f-field :is(input,textarea):focus~label,html[lang="ar"] .f-fiel
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+/* Collapse the full nav into the burger below this width so the header never
+   overcrowds — the utility icons (search/RFQ/language/account) stay inline. */
+@media (max-width:1300px){
+  .main-nav,.head-cta{display:none}
+  .burger{display:block;margin-inline-start:.2rem}
+}
 @media (max-width:1040px){
   .main-nav,.head-cta{display:none}
   .burger{display:block;margin-inline-start:auto}
@@ -1115,9 +1133,11 @@ html[lang="ar"] .sec-head p{line-height:1.95}
 html[dir="rtl"] .prod-link:hover svg{translate:-3px 0}
 .prod-link svg{width:13px;height:13px}
 
-/* --- partners: real full-color logos --- */
-.partners-track img{filter:none;opacity:1;height:64px}
-.partners-track img:hover{transform:scale(1.06)}
+/* --- partners: real full-color logos in white chips --- */
+.partners-track img{filter:none;opacity:1}
+@media (max-width:640px){
+  .partner-chip{height:76px;width:150px;padding:.75rem 1rem}
+}
 
 /* --- categories: new theme, exactly 3 per row --- */
 .cat-grid{grid-template-columns:repeat(3,1fr);gap:1.2rem}
@@ -1329,7 +1349,7 @@ html[dir="rtl"] .cat-card:hover .cat-arrow svg{translate:-3px 0}
   transition:transform .35s var(--e-spring),box-shadow .35s,border-color .35s;
 }
 .job-card:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 18px 40px -20px rgba(13,27,39,.3)}
-.job-main h3{font-size:1.2rem;margin-bottom:.55rem}
+.job-main h3,.job-main h4{font-size:1.2rem;margin-bottom:.55rem}
 .job-meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:.82rem;color:var(--mut)}
 .job-dept{font-weight:700;color:var(--blue-deep)}
 .job-type{background:var(--sand-2);color:var(--ink);font-weight:600;padding:.28rem .7rem;border-radius:999px}

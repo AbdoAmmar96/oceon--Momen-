@@ -18,8 +18,16 @@ class Product extends Model
     /** Shown as the download until the client uploads real per-product PDFs. */
     public const PLACEHOLDER_CATALOG = 'catalogs/placeholder.pdf';
 
+    /** Product condition options offered in the admin. */
+    public const CONDITIONS = [
+        'new' => 'New',
+        'used' => 'Used',
+        'refurbished' => 'Refurbished',
+    ];
+
     protected $fillable = [
         'slug', 'category_id', 'group', 'brand',
+        'model_number', 'condition', 'country_of_origin', 'availability', 'lead_time', 'specs',
         'title_en', 'title_ar', 'title_fr',
         'meta_en', 'meta_ar', 'meta_fr',
         'hp', 'price_note', 'image', 'images', 'catalog_pdf', 'is_featured', 'sort',
@@ -28,6 +36,7 @@ class Product extends Model
     protected $casts = [
         'is_featured' => 'boolean',
         'images' => 'array',
+        'specs' => 'array',
     ];
 
     protected $appends = ['image_url', 'gallery_urls', 'catalog_url'];

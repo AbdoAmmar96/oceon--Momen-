@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CaseStudy;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\TeamMember;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,12 +16,21 @@ class PageController extends Controller
         return Inertia::render('Home', [
             'categories' => Category::withCount('products')->orderBy('sort')->get(),
             'featured' => Product::with('category')->where('is_featured', true)->orderBy('sort')->take(8)->get(),
+            // Newest additions, so the homepage always shows fresh stock (req #3).
+            'recent' => Product::with('category')->latest()->take(8)->get(),
         ]);
     }
 
     public function about(): Response
     {
         return Inertia::render('About');
+    }
+
+    public function team(): Response
+    {
+        return Inertia::render('Team', [
+            'members' => TeamMember::where('is_active', true)->orderBy('sort')->get(),
+        ]);
     }
 
     public function products(): Response
@@ -74,5 +85,48 @@ class PageController extends Controller
     public function contact(): Response
     {
         return Inertia::render('Contact');
+    }
+
+    /**
+     * The RFQ list page. The cart itself lives in the browser; we hand the page
+     * a light index of products so it can resolve the saved ids to real names,
+     * images and models.
+     */
+    public function rfq(): Response
+    {
+        return Inertia::render('Rfq', [
+            'catalog' => Product::query()
+                ->orderBy('title_en')
+                ->get(['id', 'slug', 'brand', 'model_number', 'image', 'title_en', 'title_ar', 'title_fr'])
+                ->map(fn ($p) => [
+                    'id' => $p->id,
+                    'slug' => $p->slug,
+                    'brand' => $p->brand,
+                    'model_number' => $p->model_number,
+                    'image_url' => $p->image_url,
+                    'title_en' => $p->title_en,
+                    'title_ar' => $p->title_ar,
+                    'title_fr' => $p->title_fr,
+                ]),
+        ]);
+    }
+
+    public function caseStudies(): Response
+    {
+        return Inertia::render('CaseStudies/Index', [
+            'cases' => CaseStudy::where('is_active', true)->orderBy('sort')->latest('supplied_date')->get(),
+        ]);
+    }
+
+    public function caseStudy(CaseStudy $caseStudy): Response
+    {
+        abort_unless($caseStudy->is_active, 404);
+
+        return Inertia::render('CaseStudies/Show', [
+            'item' => $caseStudy,
+            'more' => CaseStudy::where('is_active', true)
+                ->where('id', '!=', $caseStudy->id)
+                ->orderBy('sort')->take(3)->get(),
+        ]);
     }
 }

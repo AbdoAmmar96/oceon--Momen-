@@ -1,8 +1,19 @@
+import { Link } from '@inertiajs/react';
 import Layout from '../components/Layout';
 import { useI18n } from '../hooks/useI18n';
 import { CtaBand, PageHero, SectionHead } from '../components/ui';
-import { IcCheck, IcGlobe, IcTruck, IcDrillSvc, IcBadge, IcUsers } from '../components/Icons';
+import { IcArrow, IcCheck, IcGlobe, IcTruck, IcDrillSvc, IcBadge, IcUsers } from '../components/Icons';
 import { Values, PartnersSection } from './Home';
+
+// Internal links tying About to the pages a visitor most often needs next (req #15).
+const ABOUT_LINKS = [
+    { href: '/products', key: 'nav.products' },
+    { href: '/services', key: 'nav.services' },
+    { href: '/team', key: 'team.nav' },
+    { href: '/case-studies', key: 'cs.nav' },
+    { href: '/jobs', key: 'nav.jobs' },
+    { href: '/contact', key: 'nav.contact' },
+];
 
 // The client's five reasons to choose Ocean Drilling.
 const WHY = [
@@ -57,6 +68,22 @@ export default function About() {
             </section>
 
             <Values />
+
+            {/* Quick links to the pages visitors need next (req #15) */}
+            <section className="sec">
+                <div className="wrap">
+                    <SectionHead center eyebrow={t('about.eyebrow')} title={t('about.more')} />
+                    <div className="about-links" data-rvs="">
+                        {ABOUT_LINKS.map((l, i) => (
+                            <Link key={l.href} href={l.href} className="about-link" style={{ transitionDelay: `${(i % 3) * 0.05}s` }}>
+                                <span>{t(l.key)}</span>
+                                <IcArrow />
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <PartnersSection />
             <CtaBand />
         </>

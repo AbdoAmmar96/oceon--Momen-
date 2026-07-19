@@ -40,6 +40,11 @@ export default function ListingForm({ data, setData, errors, categories, types, 
                 <input type="text" value={data.title} onChange={(e) => setData('title', e.target.value)} required maxLength={180} />
             </Row>
 
+            <Row label={t('lf.model')} error={errors.model} wide>
+                <input type="text" value={data.model ?? ''} onChange={(e) => setData('model', e.target.value)}
+                    placeholder={t('lf.model_ph')} maxLength={160} />
+            </Row>
+
             <Row label={t('lf.description')} error={errors.description} wide>
                 <textarea rows={6} value={data.description} onChange={(e) => setData('description', e.target.value)} required />
             </Row>
@@ -80,6 +85,12 @@ export default function ListingForm({ data, setData, errors, categories, types, 
             <Row label={t('lf.gallery')} error={errors.images} wide>
                 <input type="file" accept="image/*" multiple
                     onChange={(e) => setData('images', Array.from(e.target.files))} />
+            </Row>
+
+            <Row label={t('lf.catalog')} error={errors.catalog_pdf} wide>
+                <input type="file" accept="application/pdf"
+                    onChange={(e) => setData('catalog_pdf', e.target.files[0] ?? null)} />
+                <span className="lf-hint">{t('lf.catalog_hint')}</span>
             </Row>
 
             <div className="lf-actions">

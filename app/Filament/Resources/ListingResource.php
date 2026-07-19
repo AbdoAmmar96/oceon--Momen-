@@ -51,8 +51,14 @@ class ListingResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name_en')->searchable()->preload()->label('Category'),
                 Forms\Components\TextInput::make('title')->required()->columnSpanFull(),
+                Forms\Components\TextInput::make('model')->label('Model / specifications')->columnSpanFull(),
                 Forms\Components\Textarea::make('description')->rows(5)->required()->columnSpanFull(),
-                Forms\Components\TextInput::make('price')->numeric()->prefix('€'),
+                Forms\Components\TextInput::make('price')->numeric()->prefix('€')
+                    ->helperText("The seller's own price."),
+                Forms\Components\TextInput::make('commission_pct')->numeric()->suffix('%')
+                    ->default(0)->minValue(0)->maxValue(100)
+                    ->label('Site commission')
+                    ->helperText('Added on top of the price shown to buyers. 0% = no markup.'),
                 Forms\Components\TextInput::make('price_note')->placeholder('e.g. per day, negotiable'),
                 Forms\Components\TextInput::make('location'),
                 Forms\Components\TextInput::make('contact_phone'),
@@ -65,6 +71,9 @@ class ListingResource extends Resource
                 Forms\Components\FileUpload::make('images')
                     ->image()->multiple()->reorderable()->appendFiles()
                     ->disk('public')->directory('listings')->label('Gallery'),
+                Forms\Components\FileUpload::make('catalog_pdf')
+                    ->acceptedFileTypes(['application/pdf'])->disk('public')->directory('listing-catalogs')
+                    ->label('Product catalogue (PDF)')->columnSpanFull(),
             ])->columns(2),
 
             Forms\Components\Section::make('Review')->schema([

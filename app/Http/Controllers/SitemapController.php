@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CaseStudy;
 use App\Models\JobOpening;
 use App\Models\Product;
 use Illuminate\Http\Response;
@@ -14,8 +15,8 @@ class SitemapController extends Controller
 
         // Static pages with rough priorities.
         foreach ([
-            ['home', 1.0], ['about', 0.8], ['products', 0.9], ['services', 0.8],
-            ['contact', 0.7], ['marketplace', 0.7], ['jobs', 0.6],
+            ['home', 1.0], ['about', 0.8], ['team', 0.6], ['products', 0.9], ['services', 0.8],
+            ['contact', 0.7], ['marketplace', 0.7], ['jobs', 0.6], ['case-studies', 0.6],
         ] as [$name, $priority]) {
             $urls[] = ['loc' => route($name), 'priority' => $priority];
         }
@@ -28,6 +29,11 @@ class SitemapController extends Controller
         // Open job openings.
         JobOpening::open()->pluck('slug')->each(function ($slug) use (&$urls) {
             $urls[] = ['loc' => route('jobs.show', $slug), 'priority' => 0.5];
+        });
+
+        // Active case studies.
+        CaseStudy::where('is_active', true)->orderBy('sort')->pluck('slug')->each(function ($slug) use (&$urls) {
+            $urls[] = ['loc' => route('case-studies.show', $slug), 'priority' => 0.5];
         });
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"

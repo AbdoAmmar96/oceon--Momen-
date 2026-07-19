@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -26,6 +27,32 @@ class MarketplaceController extends Controller
             'listings' => $listings,
             'categories' => Category::orderBy('sort')->get(['id', 'slug', 'name_en', 'name_ar', 'name_fr']),
             'activeType' => in_array($type, Listing::TYPES, true) ? $type : null,
+        ]);
+    }
+
+    /**
+     * A member's public storefront: every approved listing they've posted, all
+     * on one page — the "store within a store" (req #12).
+     */
+    public function seller(User $user): Response
+    {
+        $listings = Listing::approved()
+            ->with('category')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        // Only members who actually have public listings get a storefront.
+        abort_if($listings->isEmpty(), 404);
+
+        return Inertia::render('Marketplace/Seller', [
+            'seller' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'country' => $user->country,
+                'member_since' => $user->created_at?->format('Y'),
+            ],
+            'listings' => $listings,
         ]);
     }
 

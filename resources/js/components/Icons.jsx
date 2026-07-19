@@ -45,6 +45,12 @@ export const IcSearch = (p) => <Svg {...p}><circle cx="11" cy="11" r="7" /><path
 export const IcTruck = (p) => <Svg {...p}><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z" /><circle cx="7" cy="18" r="1.6" /><circle cx="17.5" cy="18" r="1.6" /></Svg>;
 export const IcDownload = (p) => <Svg {...p}><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></Svg>;
 export const IcWhats = (p) => <Svg {...p}><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z" /><path d="M8.5 8.5c.3 3 2.8 5.6 5.8 6 .8.1 1.5-.4 1.6-1.1l.1-.6-2-.9-1 1a5.6 5.6 0 0 1-2.6-2.6l1-1-.9-2-.6.1c-.7.1-1.2.8-1.1 1.6z" strokeWidth="1.4" /></Svg>;
+export const IcZoom = (p) => <Svg {...p}><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></Svg>;
+export const IcPlus = (p) => <Svg {...p}><path d="M12 5v14M5 12h14" /></Svg>;
+export const IcClipboard = (p) => <Svg {...p}><rect x="6" y="4.5" width="12" height="16" rx="2" /><path d="M9 4.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 4.5V6H9zM9 11h6M9 14.5h6M9 17.5h4" /></Svg>;
+export const IcTrash = (p) => <Svg {...p}><path d="M4 7h16M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M10 11v6M14 11v6" /></Svg>;
+export const IcClose = (p) => <Svg {...p}><path d="M6 6l12 12M18 6L6 18" /></Svg>;
+export const IcUser = (p) => <Svg {...p}><circle cx="12" cy="8" r="3.6" /><path d="M5 20a7 7 0 0 1 14 0" /></Svg>;
 
 /* ---------- contact ---------- */
 export const IcPin = (p) => <Svg {...p}><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z" /><circle cx="12" cy="10" r="2.6" /></Svg>;
@@ -89,4 +95,19 @@ const cats = {
 export function CatIcon({ cid, className }) {
     const C = cats[cid] || cats[7];
     return <C className={className} />;
+}
+
+/* ---------- careers department icons (req #8), keyed by canonical name ---------- */
+const depts = {
+    Finance: (p) => <Svg {...p}><path d="M4 20h16M6 20v-6M10 20V8M14 20v-9M18 20V5" /><path d="M5 9l4-4 3 3 6-6" /></Svg>,
+    Operation: (p) => <Svg {...p}><circle cx="12" cy="12" r="3.2" /><path d="M12 4V2.5M12 21.5V20M4 12H2.5M21.5 12H20M6.3 6.3L5.2 5.2M18.8 18.8l-1.1-1.1M6.3 17.7l-1.1 1.1M18.8 5.2l-1.1 1.1" /></Svg>,
+    'Human Resource': (p) => <Svg {...p}><circle cx="9" cy="9" r="3.2" /><path d="M3.5 19a5.5 5.5 0 0 1 11 0" /><circle cx="17" cy="10" r="2.4" /><path d="M15.8 14.6a4.6 4.6 0 0 1 4.7 4.4" /></Svg>,
+    Logistic: (p) => <Svg {...p}><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z" /><circle cx="7" cy="18" r="1.6" /><circle cx="17.5" cy="18" r="1.6" /></Svg>,
+    Sales: (p) => <Svg {...p}><path d="M4 4.5h7l8.5 8.5-6.5 6.5L4 11.5z" /><circle cx="8" cy="8.5" r="1.4" strokeWidth="2.2" /></Svg>,
+    Information: (p) => <Svg {...p}><rect x="3" y="4.5" width="18" height="12" rx="2" /><path d="M8 20h8M12 16.5V20" /><path d="M12 9.2v3.6M12 7h.01" strokeWidth="2.3" /></Svg>,
+};
+
+export function DeptIcon({ name, className }) {
+    const D = depts[name] || depts.Operation;
+    return <D className={className} />;
 }

@@ -2,8 +2,10 @@ import { Link, router, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { I18nProvider, useI18n } from '../hooks/useI18n';
 import { useReveal } from '../hooks/useReveal';
+import { useRfq } from '../hooks/useRfq';
 import {
-    BrandIcon, IcChevron, IcFb, IcGlobe, IcIg, IcLi, IcMail, IcPhone, IcPin, IcUp, IcWhats, IcX, IcYt,
+    BrandIcon, IcChevron, IcClipboard, IcFb, IcGlobe, IcIg, IcLi, IcMail, IcPhone, IcPin,
+    IcSearch, IcUp, IcUser, IcWhats, IcX, IcYt,
 } from './Icons';
 
 const NAV = [
@@ -17,11 +19,22 @@ const NAV = [
     { href: '/marketplace', key: 'nav.marketplace', highlight: true },
 ];
 
+// Secondary links surfaced in the footer and the mobile menu (kept out of the
+// crowded top bar per req #9). These also appear on the About page.
+const NAV_MORE = [
+    { href: '/team', key: 'team.nav' },
+    { href: '/case-studies', key: 'cs.nav' },
+];
+
 const META = {
     Home: 'meta.home', About: 'meta.about', Products: 'meta.products',
     Services: 'meta.services', Contact: 'meta.contact', ProductShow: 'meta.products',
     'Marketplace/Index': 'meta.marketplace', 'Marketplace/Show': 'meta.marketplace',
+    'Marketplace/Seller': 'meta.marketplace',
     'Jobs/Index': 'meta.jobs', 'Jobs/Show': 'meta.jobs',
+    'CaseStudies/Index': 'cs.title', 'CaseStudies/Show': 'cs.title',
+    Team: 'team.title',
+    Rfq: 'rfq.title',
     'Auth/Login': 'meta.login', 'Auth/Register': 'meta.register',
     Dashboard: 'meta.dashboard',
     'Listings/Create': 'meta.dashboard', 'Listings/Edit': 'meta.dashboard',
@@ -111,9 +124,9 @@ function LangSwitch({ mobile = false }) {
     }
     return (
         <div className={`lang-switch ${open ? 'open' : ''}`} ref={box}>
-            <button className="lang-btn" onClick={() => setOpen(!open)} aria-label={t('langname')}>
+            <button className="lang-btn" onClick={() => setOpen(!open)} aria-label={t('langname')} title={current[1]}>
                 <IcGlobe style={{ width: 15, height: 15 }} />
-                <span className="lang-cur">{current[1]}</span>
+                <span className="lang-cur">{current[0].toUpperCase()}</span>
                 <IcChevron />
             </button>
             <div className="lang-menu">
@@ -127,33 +140,115 @@ function LangSwitch({ mobile = false }) {
     );
 }
 
-/** Login / register links for guests, or an account menu for members. */
+/** Login / register links for guests, or an account menu for members. On
+ *  desktop this is a compact icon dropdown to keep the header uncluttered;
+ *  the mobile menu keeps full-width text links. */
 function AccountNav({ mobile = false }) {
     const { t } = useI18n();
     const user = usePage().props.auth?.user;
+    const [open, setOpen] = useState(false);
+    const box = useRef(null);
+    useEffect(() => {
+        const close = (e) => { if (box.current && !box.current.contains(e.target)) setOpen(false); };
+        document.addEventListener('pointerdown', close);
+        return () => document.removeEventListener('pointerdown', close);
+    }, []);
 
-    if (! user) {
+    if (mobile) {
         return (
-            <div className={mobile ? 'm-account' : 'account-nav'}>
-                <Link href="/login" className="acc-link">{t('nav.login')}</Link>
-                <Link href="/register" className="acc-link acc-strong">{t('nav.register')}</Link>
+            <div className="m-account">
+                {! user ? (
+                    <>
+                        <Link href="/login" className="acc-link">{t('nav.login')}</Link>
+                        <Link href="/register" className="acc-link acc-strong">{t('nav.register')}</Link>
+                    </>
+                ) : (
+                    <>
+                        <Link href="/dashboard" className="acc-link">{t('nav.dashboard')}</Link>
+                        <button className="acc-link acc-out" onClick={() => router.post('/logout')}>{t('nav.logout')}</button>
+                    </>
+                )}
             </div>
         );
     }
 
     return (
-        <div className={mobile ? 'm-account' : 'account-nav'}>
-            <Link href="/dashboard" className="acc-link">{t('nav.dashboard')}</Link>
-            <button className="acc-link acc-out" onClick={() => router.post('/logout')}>
-                {t('nav.logout')}
+        <div className={`acc-switch ${open ? 'open' : ''}`} ref={box}>
+            <button className="acc-btn" onClick={() => setOpen(!open)} aria-label={t(user ? 'nav.dashboard' : 'nav.login')} aria-expanded={open}>
+                <IcUser />
             </button>
+            <div className="acc-menu">
+                {! user ? (
+                    <>
+                        <Link href="/login" onClick={() => setOpen(false)}>{t('nav.login')}</Link>
+                        <Link href="/register" onClick={() => setOpen(false)}>{t('nav.register')}</Link>
+                    </>
+                ) : (
+                    <>
+                        <Link href="/dashboard" onClick={() => setOpen(false)}>{t('nav.dashboard')}</Link>
+                        <button onClick={() => router.post('/logout')}>{t('nav.logout')}</button>
+                    </>
+                )}
+            </div>
         </div>
+    );
+}
+
+/** Site-wide product search — available on every page, not just Products (req #9). */
+function SearchBox({ mobile = false }) {
+    const { t } = useI18n();
+    const [open, setOpen] = useState(false);
+    const [q, setQ] = useState('');
+    const inputRef = useRef(null);
+
+    useEffect(() => { if (open && inputRef.current) inputRef.current.focus(); }, [open]);
+
+    const go = (e) => {
+        e.preventDefault();
+        const term = q.trim();
+        router.visit(term ? `/products?q=${encodeURIComponent(term)}` : '/products');
+        setOpen(false);
+        setQ('');
+    };
+
+    if (mobile) {
+        return (
+            <form className="m-search" onSubmit={go}>
+                <IcSearch />
+                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('search.ph')} aria-label={t('search.label')} />
+            </form>
+        );
+    }
+
+    return (
+        <div className={`head-search ${open ? 'open' : ''}`}>
+            <form onSubmit={go}>
+                <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('search.ph')} aria-label={t('search.label')} />
+                <button type={open ? 'submit' : 'button'} className="head-search-btn" onClick={() => !open && setOpen(true)} aria-label={t('search.label')}>
+                    <IcSearch />
+                </button>
+            </form>
+        </div>
+    );
+}
+
+/** RFQ list shortcut with a live item count. */
+function RfqButton() {
+    const { t } = useI18n();
+    const { count } = useRfq();
+    return (
+        <Link href="/rfq" className={`head-rfq ${count > 0 ? 'has' : ''}`} aria-label={t('rfq.nav')}>
+            <IcClipboard />
+            <span className="head-rfq-label">{t('rfq.nav')}</span>
+            {count > 0 && <span className="head-rfq-count">{count}</span>}
+        </Link>
     );
 }
 
 function Header() {
     const { t, pick } = useI18n();
     const { url, props } = usePage();
+    const { count: rfqCount } = useRfq();
     const cats = (props.navCategories || []).filter((c) => c.products_count > 0);
     const [scrolled, setScrolled] = useState(false);
     const [menu, setMenu] = useState(false);
@@ -207,6 +302,8 @@ function Header() {
                         ))}
                     </nav>
                     <div className="head-actions">
+                        <SearchBox />
+                        <RfqButton />
                         <LangSwitch />
                         <AccountNav />
                         <Link href="/contact" className="btn head-cta">{t('nav.quote')}</Link>
@@ -220,13 +317,15 @@ function Header() {
                 <button className="m-close" onClick={() => setMenu(false)} aria-label="Close menu">
                     <IcClose />
                 </button>
+                <SearchBox mobile />
                 <nav className="m-nav" aria-label="Mobile">
-                    {NAV.map((n, i) => (
+                    {[...NAV, ...NAV_MORE].map((n, i) => (
                         <Link key={n.href} href={n.href} style={{ transitionDelay: menu ? `${0.12 + i * 0.06}s` : '0s' }}
                             className={`${active(n.href) ? 'active' : ''} ${n.highlight ? 'nav-hot' : ''}`}>
                             {t(n.key)}
                         </Link>
                     ))}
+                    <Link href="/rfq" className="m-rfq">{t('rfq.nav')}{rfqCount > 0 ? ` (${rfqCount})` : ''}</Link>
                 </nav>
                 <AccountNav mobile />
                 <LangSwitch mobile />
@@ -239,7 +338,9 @@ function Footer() {
     const { t, pick, lang } = useI18n();
     const { props } = usePage();
     const year = new Date().getFullYear();
-    const quick = NAV.slice(1);
+    // Quick links: the main nav (minus Home and the marketplace pill, which gets
+    // its own highlighted button below) plus the secondary links.
+    const quick = [...NAV.slice(1).filter((n) => n.href !== '/marketplace'), ...NAV_MORE];
     const cats = (props.navCategories || []).filter((c) => c.products_count > 0).slice(0, 8);
     const s = props.settings || {};
     const socials = buildSocials(s);
@@ -250,21 +351,28 @@ function Footer() {
     return (
         <footer className="site-foot">
             <div className="wrap">
+                {/* Highlighted primary actions (req #16) */}
+                <div className="foot-cta">
+                    <div className="foot-cta-copy">
+                        <BrandIcon className="foot-cta-icon" />
+                        <span>{t('cta.title')}</span>
+                    </div>
+                    <div className="foot-cta-btns">
+                        <Link href="/contact" className="foot-cta-btn primary">{t('foot.rfq_cta')}</Link>
+                        <Link href="/marketplace" className="foot-cta-btn accent">{t('foot.adv_cta')}</Link>
+                    </div>
+                </div>
+
                 <div className="foot-main">
                     <div className="foot-brand">
                         <Link href="/" className="brand"><BrandLockup /></Link>
                         <p>{t('foot.blurb')}</p>
-                        <div className="socials">
-                            {socials.map(({ Icon, href, label }) => (
-                                <a key={href} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon /></a>
-                            ))}
-                        </div>
                     </div>
                     <div className="foot-col">
                         <h4>{t('foot.quick')}</h4>
                         <ul>
                             {quick.map((n) => <li key={n.href}><Link href={n.href}>{t(n.key)}</Link></li>)}
-                            <li><Link href="/contact">{t('nav.quote')}</Link></li>
+                            <li><Link href="/rfq">{t('rfq.nav')}</Link></li>
                         </ul>
                     </div>
                     {cats.length > 0 && (
@@ -284,6 +392,15 @@ function Footer() {
                             <li><IcPhone /><a className="ltr" href={telHref(phone)}>{phone}</a></li>
                             <li><IcMail /><a href={`mailto:${email}`}>{email}</a></li>
                         </ul>
+                        {/* Socials given their own labelled block (req #16) */}
+                        <div className="foot-social">
+                            <span className="foot-social-k">{t('contact.social_t')}</span>
+                            <div className="socials">
+                                {socials.map(({ Icon, href, label }) => (
+                                    <a key={href} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon /></a>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="foot-bar">

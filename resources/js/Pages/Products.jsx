@@ -35,16 +35,22 @@ function catFromUrl(products) {
     return products.some((p) => p.category_id === id) ? id : 'all';
 }
 
+/** Read the ?q= search term coming from the site-wide header search. */
+function queryFromUrl() {
+    if (typeof window === 'undefined') return '';
+    return new URLSearchParams(window.location.search).get('q') || '';
+}
+
 export default function Products({ products, categories, brands = [] }) {
     const { t, pick } = useI18n();
     const { url } = usePage();
     const [cat, setCat] = useState(() => catFromUrl(products));
     const [brand, setBrand] = useState('all');
-    const [q, setQ] = useState('');
+    const [q, setQ] = useState(queryFromUrl);
     const cats = categories.filter((c) => c.products_count > 0);
 
-    // Keep the selected category in sync when arriving via a ?cat= link.
-    useEffect(() => { setCat(catFromUrl(products)); }, [url]);
+    // Keep the selected category and search term in sync with the URL.
+    useEffect(() => { setCat(catFromUrl(products)); setQ(queryFromUrl()); }, [url]);
 
     // Pre-fold every product's searchable text once: names, descriptions and
     // category in all three languages, plus brand / group / horsepower.
@@ -137,6 +143,7 @@ export default function Products({ products, categories, brands = [] }) {
                                 delay={(i % 4) * 0.04}
                                 hidden={!matches.has(p.id)}
                                 showCatalog
+                                showRfq
                             />
                         ))}
                     </div>

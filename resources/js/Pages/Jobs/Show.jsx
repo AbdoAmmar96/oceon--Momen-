@@ -18,6 +18,10 @@ function ApplyForm({ job }) {
         email: user?.email ?? '',
         phone: '',
         country: '',
+        current_title: '',
+        years_experience: '',
+        linkedin_url: '',
+        qualifications: '',
         cover_letter: '',
         cv: null,
     });
@@ -51,6 +55,32 @@ function ApplyForm({ job }) {
                 <label>{t('job.f_country')}</label>
                 <input type="text" value={data.country} onChange={(e) => setData('country', e.target.value)} />
                 {errors.country && <p className="lf-err">{errors.country}</p>}
+            </div>
+
+            <div className="lf-row">
+                <label>{t('job.f_position')}</label>
+                <input type="text" value={data.current_title} onChange={(e) => setData('current_title', e.target.value)} />
+                {errors.current_title && <p className="lf-err">{errors.current_title}</p>}
+            </div>
+
+            <div className="lf-row">
+                <label>{t('job.f_years')}</label>
+                <input type="number" min="0" max="60" value={data.years_experience}
+                    onChange={(e) => setData('years_experience', e.target.value)} />
+                {errors.years_experience && <p className="lf-err">{errors.years_experience}</p>}
+            </div>
+
+            <div className="lf-row lf-wide">
+                <label>{t('job.f_linkedin')}</label>
+                <input type="url" placeholder="https://linkedin.com/in/…" value={data.linkedin_url}
+                    onChange={(e) => setData('linkedin_url', e.target.value)} />
+                {errors.linkedin_url && <p className="lf-err">{errors.linkedin_url}</p>}
+            </div>
+
+            <div className="lf-row lf-wide">
+                <label>{t('job.f_quals')}</label>
+                <textarea rows={4} value={data.qualifications} onChange={(e) => setData('qualifications', e.target.value)} />
+                {errors.qualifications && <p className="lf-err">{errors.qualifications}</p>}
             </div>
 
             <div className="lf-row lf-wide">

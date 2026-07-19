@@ -35,16 +35,63 @@ export function Marquee() {
 }
 
 /* ---------- partner logos marquee ---------- */
+// Real distributor / manufacturer brands, kept in their original colours as
+// requested. Each renders inside a white chip so logos on white backgrounds
+// sit cleanly on the tinted section.
+const PARTNER_LOGOS = [
+    ['atlas-copco.jpg', 'Atlas Copco'],
+    ['caterpillar.png', 'Caterpillar'],
+    ['komatsu.png', 'Komatsu'],
+    ['ingersoll-rand.jpg', 'Ingersoll Rand'],
+    ['gardner-denver.jpg', 'Gardner Denver'],
+    ['furukawa.png', 'Furukawa FRD'],
+    ['sullair.png', 'Sullair'],
+    ['mitsubishi-materials.png', 'Mitsubishi Materials'],
+    ['east-west.jpg', 'East West Machinery & Drilling'],
+    ['brunner-lay.jpg', 'Brunner & Lay'],
+    ['robit.jpg', 'Robit'],
+    ['derex.jpg', 'Derex'],
+    ['rock-hog.jpg', 'Rock Hog Drilling Products'],
+    ['star-iron-works.jpg', 'Star Iron Works'],
+];
+
 export function Partners() {
-    const logos = ['pa1', 'pa2', 'pa3', 'pa4'];
-    const run = [...logos, ...logos, ...logos];
+    const run = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
     return (
         <div className="partners-wrap" data-rv="">
             <div className="partners-track">
-                {run.map((l, i) => <img key={i} src={`/img/partners/${l}.png`} alt="Partner brand" loading="lazy" />)}
-                {run.map((l, i) => <img key={`b${i}`} src={`/img/partners/${l}.png`} alt="" aria-hidden="true" loading="lazy" />)}
+                {run.map(([file, name], i) => (
+                    <span className="partner-chip" key={i}>
+                        <img src={`/img/partners/${file}`} alt={i < PARTNER_LOGOS.length ? name : ''}
+                            aria-hidden={i >= PARTNER_LOGOS.length ? 'true' : undefined} loading="lazy" />
+                    </span>
+                ))}
             </div>
         </div>
+    );
+}
+
+/* ---------- FAQ accordion (req #14) ---------- */
+export function Faq({ items = ['1', '2', '3', '4', '5', '6'] }) {
+    const { t } = useI18n();
+    const [open, setOpen] = useState(0);
+    return (
+        <section className="sec">
+            <div className="wrap">
+                <SectionHead center eyebrow={t('faq.eyebrow')} title={t('faq.title')} sub={t('faq.sub')} />
+                <div className="faq-list" data-rv="">
+                    {items.map((n, i) => (
+                        <div className={`faq-item ${open === i ? 'on' : ''}`} key={n}>
+                            <button className="faq-q" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+                                <span>{t(`faq.q${n}`)}</span>
+                                <i className="faq-ico" aria-hidden="true"><span /><span /></i>
+                            </button>
+                            <div className="faq-a"><p>{t(`faq.a${n}`)}</p></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
     );
 }
 

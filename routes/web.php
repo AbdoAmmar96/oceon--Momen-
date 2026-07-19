@@ -8,6 +8,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +16,29 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/team', [PageController::class, 'team'])->name('team');
 Route::get('/products', [PageController::class, 'products'])->name('products');
 Route::get('/products/{product:slug}', [PageController::class, 'product'])->name('products.show');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+/* Product-bound quote request and the multi-item RFQ list. */
+Route::post('/quote', [QuoteController::class, 'store'])->name('quote.store');
+Route::get('/rfq', [PageController::class, 'rfq'])->name('rfq');
+Route::post('/rfq', [QuoteController::class, 'storeRfq'])->name('rfq.store');
+
+/* Case studies — public showcase of completed supply projects. */
+Route::get('/case-studies', [PageController::class, 'caseStudies'])->name('case-studies');
+Route::get('/case-studies/{caseStudy:slug}', [PageController::class, 'caseStudy'])->name('case-studies.show');
+
 /*
  * Marketplace — the "Advertise Here" board. Public pages only ever surface
  * listings an admin has approved.
  */
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace');
+// A seller's own storefront — all of one member's approved listings.
+Route::get('/marketplace/seller/{user}', [MarketplaceController::class, 'seller'])->name('marketplace.seller');
 
 /* Careers — anyone may browse, only signed-in members may apply. */
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs');

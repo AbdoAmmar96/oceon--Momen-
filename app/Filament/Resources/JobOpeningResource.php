@@ -35,7 +35,11 @@ class JobOpeningResource extends Resource
     {
         return $form->schema([
             Forms\Components\Section::make('Position')->schema([
-                Forms\Components\TextInput::make('department')->placeholder('e.g. Operations'),
+                Forms\Components\TextInput::make('department')
+                    ->placeholder('e.g. Operations')
+                    // Suggest the site's standard sections, but allow a new one.
+                    ->datalist(JobOpening::DEPARTMENTS)
+                    ->helperText('Pick a standard department or type a new one.'),
                 Forms\Components\TextInput::make('location')->placeholder('e.g. Larnaca, Cyprus'),
                 Forms\Components\Select::make('employment_type')
                     ->options(self::TYPE_LABELS)->required()->default('full_time'),

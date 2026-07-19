@@ -10,6 +10,7 @@ export default function Create({ categories, types }) {
     const { data, setData, post, processing, errors } = useForm({
         type: 'sale',
         title: '',
+        model: '',
         description: '',
         category_id: null,
         price: '',
@@ -19,6 +20,7 @@ export default function Create({ categories, types }) {
         contact_email: '',
         image: null,
         images: [],
+        catalog_pdf: null,
     });
 
     const submit = (e) => {

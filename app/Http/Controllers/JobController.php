@@ -14,9 +14,13 @@ class JobController extends Controller
         return Inertia::render('Jobs/Index', [
             'jobs' => JobOpening::open()
                 ->withCount('applications')
+                ->orderBy('department')
                 ->orderBy('sort')
                 ->latest()
                 ->get(),
+            // The canonical department order carried over from the old site, so
+            // the Careers grid always mirrors those sections (req #8).
+            'departments' => JobOpening::DEPARTMENTS,
         ]);
     }
 

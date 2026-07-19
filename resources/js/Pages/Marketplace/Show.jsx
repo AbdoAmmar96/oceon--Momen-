@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Layout from '../../components/Layout';
 import { useI18n } from '../../hooks/useI18n';
 import { telHref } from '../../components/Layout';
-import { IcMail, IcPhone, IcPin } from '../../components/Icons';
+import { IcDownload, IcMail, IcPhone, IcPin } from '../../components/Icons';
 
 const TYPE_KEYS = { sale: 'lf.type_sale', rent: 'lf.type_rent', service: 'lf.type_service' };
 
@@ -43,8 +43,12 @@ export default function Show({ listing, related }) {
 
                         {listing.category && <p className="mk-cat">{pick(listing.category, 'name')}</p>}
 
+                        {listing.model && (
+                            <p className="mk-show-model">{t('pd.model')}: <strong>{listing.model}</strong></p>
+                        )}
+
                         <p className="mk-show-price">
-                            {listing.price ? `${listing.price} ${listing.currency}` : t('mk.on_request')}
+                            {listing.final_price ? `${listing.final_price} ${listing.currency}` : t('mk.on_request')}
                             {listing.price_note && <em> · {listing.price_note}</em>}
                         </p>
 
@@ -60,8 +64,20 @@ export default function Show({ listing, related }) {
                             )}
                         </ul>
 
+                        {listing.catalog_url && (
+                            <a className="pd-datasheet" href={listing.catalog_url} target="_blank" rel="noreferrer" style={{ marginBottom: '1rem' }}>
+                                <IcDownload /> {t('pd.datasheet')}
+                            </a>
+                        )}
+
                         {listing.user && (
-                            <p className="mk-show-by">{t('mk.posted_by')}: <strong>{listing.user.name}</strong></p>
+                            <p className="mk-show-by">
+                                {t('mk.posted_by')}:{' '}
+                                <Link href={`/marketplace/seller/${listing.user.id}`} className="mk-seller-link">
+                                    <strong>{listing.user.name}</strong>
+                                </Link>
+                                <Link href={`/marketplace/seller/${listing.user.id}`} className="mk-store-btn">{t('mk.visit_store')}</Link>
+                            </p>
                         )}
                     </div>
                 </div>
@@ -78,7 +94,7 @@ export default function Show({ listing, related }) {
                                     <div className="mk-body">
                                         <h3>{l.title}</h3>
                                         <span className="mk-price">
-                                            {l.price ? `${l.price} ${l.currency}` : t('mk.on_request')}
+                                            {l.final_price ? `${l.final_price} ${l.currency}` : t('mk.on_request')}
                                         </span>
                                     </div>
                                 </Link>

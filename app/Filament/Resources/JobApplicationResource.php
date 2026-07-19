@@ -56,7 +56,11 @@ class JobApplicationResource extends Resource
                 Forms\Components\TextInput::make('email')->disabled(),
                 Forms\Components\TextInput::make('phone')->disabled(),
                 Forms\Components\TextInput::make('country')->disabled(),
+                Forms\Components\TextInput::make('current_title')->label('Current / recent role')->disabled(),
+                Forms\Components\TextInput::make('years_experience')->label('Years of experience')->disabled(),
+                Forms\Components\TextInput::make('linkedin_url')->label('LinkedIn')->disabled()->url(),
                 Forms\Components\TextInput::make('cv_name')->label('CV file')->disabled(),
+                Forms\Components\Textarea::make('qualifications')->rows(4)->label('Qualifications & skills')->disabled()->columnSpanFull(),
                 Forms\Components\Textarea::make('cover_letter')->rows(6)->disabled()->columnSpanFull(),
             ])->columns(3),
 

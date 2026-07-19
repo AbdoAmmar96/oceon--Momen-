@@ -45,6 +45,30 @@ class ProductResource extends Resource
                 Forms\Components\Toggle::make('is_featured')->label('Show on homepage'),
                 Forms\Components\TextInput::make('sort')->numeric()->default(0),
             ])->columns(3),
+            Forms\Components\Section::make('Details')
+                ->description('Only filled-in fields appear on the product page — empty ones are hidden.')
+                ->schema([
+                    Forms\Components\TextInput::make('model_number')
+                        ->label('Part Number / Model')->maxLength(120),
+                    Forms\Components\Select::make('condition')
+                        ->options(Product::CONDITIONS)->label('Condition')->native(false),
+                    Forms\Components\TextInput::make('country_of_origin')
+                        ->label('Country of Origin')->maxLength(120),
+                    Forms\Components\TextInput::make('availability')
+                        ->label('Availability Status')->placeholder('e.g. In stock')->maxLength(120),
+                    Forms\Components\TextInput::make('lead_time')
+                        ->label('Lead Time')->placeholder('e.g. 2–4 weeks')->maxLength(120),
+                    Forms\Components\Repeater::make('specs')
+                        ->label('Technical Specifications (table)')
+                        ->schema([
+                            Forms\Components\TextInput::make('label')->label('Spec')->required(),
+                            Forms\Components\TextInput::make('value')->label('Value')->required(),
+                        ])
+                        ->columns(2)->reorderable()->collapsible()->cloneable()
+                        ->addActionLabel('Add specification')
+                        ->helperText('Rows shown as a measurements / specification table on the product page.')
+                        ->columnSpanFull()->default([]),
+                ])->columns(3),
             Forms\Components\Tabs::make('Content')->tabs([
                 Forms\Components\Tabs\Tab::make('English')->schema([
                     Forms\Components\TextInput::make('title_en')->required()

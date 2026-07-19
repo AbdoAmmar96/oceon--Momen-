@@ -12,6 +12,7 @@ export default function Edit({ listing, categories, types }) {
         _method: 'put',
         type: listing.type,
         title: listing.title,
+        model: listing.model ?? '',
         description: listing.description,
         category_id: listing.category_id,
         price: listing.price ?? '',
@@ -21,6 +22,7 @@ export default function Edit({ listing, categories, types }) {
         contact_email: listing.contact_email ?? '',
         image: null,
         images: [],
+        catalog_pdf: null,
     });
 
     const submit = (e) => {

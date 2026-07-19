@@ -14,7 +14,9 @@ class JobApplication extends Model
 
     protected $fillable = [
         'job_opening_id', 'user_id',
-        'full_name', 'email', 'phone', 'country', 'cover_letter',
+        'full_name', 'email', 'phone', 'country',
+        'current_title', 'years_experience', 'linkedin_url', 'qualifications',
+        'cover_letter',
         'cv_path', 'cv_name',
         'status', 'admin_note', 'reviewed_at', 'reviewed_by',
     ];

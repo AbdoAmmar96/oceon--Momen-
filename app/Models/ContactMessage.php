@@ -9,10 +9,14 @@ class ContactMessage extends Model
     /** Attachments live on the private disk — admin-only download. */
     public const ATTACH_DISK = 'local';
 
-    protected $fillable = ['name', 'email', 'phone', 'subject', 'body', 'attachments', 'locale', 'is_read'];
+    protected $fillable = [
+        'kind', 'name', 'email', 'phone', 'company', 'subject', 'body',
+        'attachments', 'payload', 'locale', 'is_read',
+    ];
 
     protected $casts = [
         'is_read' => 'boolean',
         'attachments' => 'array',
+        'payload' => 'array',
     ];
 }

@@ -11,6 +11,13 @@ class JobOpening extends Model
 {
     public const TYPES = ['full_time', 'part_time', 'contract', 'internship'];
 
+    /**
+     * The departments carried over from the previous site (req #8). These seed
+     * the Careers grid and the admin's department suggestions; admins may still
+     * type a brand-new department name that isn't on this list.
+     */
+    public const DEPARTMENTS = ['Finance', 'Operation', 'Human Resource', 'Logistic', 'Sales', 'Information'];
+
     protected $table = 'job_openings';
 
     protected $fillable = [
