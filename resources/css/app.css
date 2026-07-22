@@ -427,6 +427,12 @@ html[lang="ar"] .eyebrow{letter-spacing:.05em;font-size:.8rem}
 [data-rv].in{opacity:1;translate:0 0;scale:1}
 [data-rvs]>*{opacity:0;translate:0 30px;transition:opacity .75s var(--e-out),translate .75s var(--e-out)}
 [data-rvs].in>*{opacity:1;translate:0 0}
+/* After the first visit the reveal is switched off wholesale (see useReveal).
+   Driving it from <html> rather than a class per element covers content that
+   mounts later — notably a page rebuilt by clicking its own nav link, which
+   arrives with no "in" class and nothing left to add one. */
+html[data-reveals="off"] :is([data-rv],[data-rvs]>*){opacity:1;translate:0;scale:1}
+html[data-reveals="off"] .steps::before{transform:none}
 
 /* ============================================================
    MARQUEE

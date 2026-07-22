@@ -273,7 +273,13 @@ function Header() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    useEffect(() => { setMenu(false); }, [url]);
+    // Close when the visit ends, not when the url changes: tapping the link for
+    // the page you are already on is a real visit that rebuilds the page
+    // underneath, yet leaves the url identical — so the sheet stayed open over
+    // it, with the page still scroll-locked behind. 'finish' is used rather than
+    // 'navigate' because Inertia replaces rather than pushes history for a
+    // same-url visit, and only fires 'navigate' when it pushes.
+    useEffect(() => router.on('finish', () => setMenu(false)), []);
     useEffect(() => { document.body.style.overflow = menu ? 'hidden' : ''; }, [menu]);
     // Reset the accordion when the sheet closes so it always reopens tidy.
     useEffect(() => { if (! menu) setOpenGroup(null); }, [menu]);
