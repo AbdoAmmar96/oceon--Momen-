@@ -15,7 +15,8 @@ class SitemapController extends Controller
 
         // Static pages with rough priorities.
         foreach ([
-            ['home', 1.0], ['about', 0.8], ['team', 0.6], ['products', 0.9], ['services', 0.8],
+            ['home', 1.0], ['about', 0.8], ['objectives', 0.6], ['team', 0.6], ['catalog', 0.7],
+            ['products', 0.9], ['services', 0.8],
             ['contact', 0.7], ['marketplace', 0.7], ['jobs', 0.6], ['case-studies', 0.6],
         ] as [$name, $priority]) {
             $urls[] = ['loc' => route($name), 'priority' => $priority];

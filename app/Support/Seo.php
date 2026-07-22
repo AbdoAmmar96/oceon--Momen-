@@ -43,6 +43,14 @@ class Seo
             'title' => 'Our Team',
             'desc' => 'Meet the Ocean Drilling & Trading team — sales, technical and logistics working as one crew on every order.',
         ],
+        'objectives' => [
+            'title' => 'Vision & Mission — Our Objectives',
+            'desc' => 'The six commitments behind every Ocean Drilling & Trading quote: customer focus, integrity, teamwork, valuing people, competency and social responsibility.',
+        ],
+        'catalog' => [
+            'title' => 'Company Catalogue',
+            'desc' => 'Download the Ocean Drilling & Trading catalogue or browse our full range of rigs, pumps, compressors, hammers, bits and spare parts online.',
+        ],
         'products' => [
             'title' => 'Products — Drilling Rigs, Pumps, Compressors & Parts',
             'desc' => 'Browse drilling and industrial equipment across 13 categories: rigs, mud pumps, DTH hammers & bits, compressors, engines and genuine spare parts.',

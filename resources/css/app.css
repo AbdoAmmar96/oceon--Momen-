@@ -202,7 +202,7 @@ html[dir="rtl"] .nav-item.has-dd:hover .nav-dd{translate:50% 0}
 .lang-flag{font-family:var(--font-m);font-size:.66rem;letter-spacing:.1em;border:1px solid var(--line-l);border-radius:5px;padding:2px 6px;color:var(--cyan)}
 
 .head-cta{flex-shrink:0}
-.burger{display:none;width:44px;height:44px;position:relative;z-index:96;transition:opacity .3s}
+.burger{display:none;width:44px;height:44px;position:relative;z-index:98;transition:opacity .3s}
 .burger.open{opacity:0;pointer-events:none}
 .burger span{position:absolute;inset-inline:10px;height:2px;background:#fff;border-radius:2px;transition:.4s var(--e-out)}
 .burger span:nth-child(1){top:15px}
@@ -214,10 +214,24 @@ html[dir="rtl"] .nav-item.has-dd:hover .nav-dd{translate:50% 0}
 
 /* mobile menu */
 .m-menu{
-  position:fixed;inset:0;z-index:94;background:linear-gradient(160deg,var(--navy-950),var(--navy-800));
-  display:grid;place-content:center;gap:1rem;text-align:center;
+  /* Above the floating WhatsApp button (95) and back-to-top, which otherwise
+     hovered on top of the open menu. */
+  position:fixed;inset:0;z-index:97;background:linear-gradient(160deg,var(--navy-950),var(--navy-800));
+  display:grid;justify-items:center;gap:1rem;text-align:center;
+  /* Centred while the menu fits, but `safe` flips to start-aligned once it is
+     taller than the screen — plain `center` overflows equally off both ends and
+     the top items become unreachable even with a scrollbar. */
+  align-content:center;
+  align-content:safe center;
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  /* Hide the bar itself: a classic scrollbar carves a light gutter out of the
+     panel (on the left in RTL). Phones use overlay bars anyway. */
+  scrollbar-width:none;
+  /* Top padding clears the fixed close button; bottom clears phone gesture bars. */
+  padding:5.5rem 1rem 3rem;
   clip-path:circle(0% at calc(100% - 44px) 38px);transition:clip-path .7s var(--e-out);
 }
+.m-menu::-webkit-scrollbar{width:0;height:0}
 html[dir="rtl"] .m-menu{clip-path:circle(0% at 44px 38px)}
 .m-menu.open{clip-path:circle(140% at calc(100% - 44px) 38px)}
 html[dir="rtl"] .m-menu.open{clip-path:circle(140% at 44px 38px)}
@@ -230,7 +244,7 @@ html[dir="rtl"] .m-menu.open{clip-path:circle(140% at 44px 38px)}
 .m-menu a:hover{color:var(--cyan)}
 .m-menu a.active{color:var(--orange)}
 .m-close{
-  position:fixed;top:20px;inset-inline-end:20px;z-index:96;width:48px;height:48px;
+  position:fixed;top:20px;inset-inline-end:20px;z-index:98;width:48px;height:48px;
   display:grid;place-items:center;border-radius:50%;color:#eaf3f9;
   border:1px solid var(--line-l);background:rgba(255,255,255,.06);
   opacity:0;transform:scale(.7);transition:opacity .4s .15s,transform .4s .15s,background .3s,color .3s;
@@ -402,6 +416,13 @@ html[lang="ar"] .eyebrow{letter-spacing:.05em;font-size:.8rem}
 [data-rv]{opacity:0;translate:0 34px;transition:opacity .85s var(--e-out),translate .85s var(--e-out)}
 [data-rv="left"]{translate:-40px 0}
 [data-rv="right"]{translate:40px 0}
+/* On phones a full-width block plus a 40px sideways offset overflows the
+   viewport. body{overflow-x:hidden} clips it, but the body is then a scroll
+   container and in RTL its shifted scroll origin drags fixed elements (the
+   mobile menu) off the edge. Reveal these vertically instead. */
+@media (max-width:900px){
+  [data-rv="left"],[data-rv="right"]{translate:0 34px}
+}
 [data-rv="zoom"]{translate:0 0;scale:.9}
 [data-rv].in{opacity:1;translate:0 0;scale:1}
 [data-rvs]>*{opacity:0;translate:0 30px;transition:opacity .75s var(--e-out),translate .75s var(--e-out)}
@@ -931,6 +952,11 @@ html[lang="ar"] .f-field :is(input,textarea):focus~label,html[lang="ar"] .f-fiel
   .about-media .badge{inset-inline-end:8px}
 }
 @media (max-width:640px){
+  /* Phones: run content close to the edge. The 92% default cost ~16px a side
+     while the header sat at ~10px, so every section read as inset against the
+     logo/burger above it. One gutter for all three keeps the vertical edge
+     straight from header to footer and gives the content back ~12px. */
+  .wrap,.wrap-narrow,.site-head .wrap{width:100%;padding-inline:10px}
   body{font-size:15.5px}
   .hero-inner{padding-block:4rem 7.5rem}
   .hero-stats{gap:1.2rem}

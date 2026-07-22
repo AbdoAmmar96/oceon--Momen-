@@ -48,6 +48,19 @@ class SiteSettings extends Page implements HasForms
                             ->columnSpanFull(),
                     ])->columns(2),
 
+                Forms\Components\Section::make('Company catalogue')
+                    ->description('The PDF offered on the Company Catalogue page. Leave empty and the page invites visitors to browse the range online instead.')
+                    ->schema([
+                        Forms\Components\FileUpload::make('company_catalog')
+                            ->label('Catalogue PDF')
+                            ->disk('public')
+                            ->directory('catalogs')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(20480)
+                            ->downloadable()
+                            ->columnSpanFull(),
+                    ])->columns(1),
+
                 Forms\Components\Section::make('Address')
                     ->description('The postal address, per language.')
                     ->schema([

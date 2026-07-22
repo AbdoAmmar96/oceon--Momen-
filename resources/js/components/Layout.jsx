@@ -8,9 +8,18 @@ import {
     IcSearch, IcUp, IcUser, IcWhats, IcX, IcYt,
 } from './Icons';
 
+// "About the company" mirrors the old site's عن الشركة menu: profile,
+// objectives, team, catalogue.
+const COMPANY_LINKS = [
+    { href: '/about', key: 'nav.profile' },
+    { href: '/objectives', key: 'obj.nav' },
+    { href: '/team', key: 'team.nav' },
+    { href: '/catalog', key: 'cat.nav' },
+];
+
 const NAV = [
     { href: '/', key: 'nav.home' },
-    { href: '/about', key: 'nav.about' },
+    { href: '/about', key: 'nav.company', children: COMPANY_LINKS },
     { href: '/products', key: 'nav.products' },
     { href: '/services', key: 'nav.services' },
     { href: '/jobs', key: 'nav.jobs' },
@@ -22,7 +31,6 @@ const NAV = [
 // Secondary links surfaced in the footer and the mobile menu (kept out of the
 // crowded top bar per req #9). These also appear on the About page.
 const NAV_MORE = [
-    { href: '/team', key: 'team.nav' },
     { href: '/case-studies', key: 'cs.nav' },
 ];
 
@@ -34,6 +42,8 @@ const META = {
     'Jobs/Index': 'meta.jobs', 'Jobs/Show': 'meta.jobs',
     'CaseStudies/Index': 'cs.title', 'CaseStudies/Show': 'cs.title',
     Team: 'team.title',
+    Objectives: 'obj.title',
+    Catalog: 'cat.title',
     Rfq: 'rfq.title',
     'Auth/Login': 'meta.login', 'Auth/Register': 'meta.register',
     Dashboard: 'meta.dashboard',
@@ -252,6 +262,8 @@ function Header() {
     const cats = (props.navCategories || []).filter((c) => c.products_count > 0);
     const [scrolled, setScrolled] = useState(false);
     const [menu, setMenu] = useState(false);
+    // Which mobile nav group is expanded (only one at a time).
+    const [openGroup, setOpenGroup] = useState(null);
     const path = url.split('?')[0];
 
     useEffect(() => {
@@ -263,6 +275,8 @@ function Header() {
 
     useEffect(() => { setMenu(false); }, [url]);
     useEffect(() => { document.body.style.overflow = menu ? 'hidden' : ''; }, [menu]);
+    // Reset the accordion when the sheet closes so it always reopens tidy.
+    useEffect(() => { if (! menu) setOpenGroup(null); }, [menu]);
 
     const active = (href) => (href === '/' ? path === '/' : path.startsWith(href));
 
@@ -285,6 +299,24 @@ function Header() {
                                             {cats.map((c) => (
                                                 <Link key={c.id} href={`/products?cat=${c.id}`} className="nav-dd-link" role="menuitem">
                                                     <span>{pick(c, 'name')}</span>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : n.children ? (
+                                <div key={n.href} className="nav-item has-dd">
+                                    <Link
+                                        href={n.href}
+                                        className={n.children.some((c) => active(c.href)) ? 'active' : ''}
+                                    >
+                                        {t(n.key)}<IcChevron className="dd-caret" />
+                                    </Link>
+                                    <div className="nav-dd nav-dd-sm" role="menu">
+                                        <div className="nav-dd-grid nav-dd-list">
+                                            {n.children.map((c) => (
+                                                <Link key={c.href} href={c.href} className="nav-dd-link" role="menuitem">
+                                                    <span>{t(c.key)}</span>
                                                 </Link>
                                             ))}
                                         </div>
@@ -320,10 +352,39 @@ function Header() {
                 <SearchBox mobile />
                 <nav className="m-nav" aria-label="Mobile">
                     {[...NAV, ...NAV_MORE].map((n, i) => (
-                        <Link key={n.href} href={n.href} style={{ transitionDelay: menu ? `${0.12 + i * 0.06}s` : '0s' }}
-                            className={`${active(n.href) ? 'active' : ''} ${n.highlight ? 'nav-hot' : ''}`}>
-                            {t(n.key)}
-                        </Link>
+                        n.children ? (
+                            /* Collapsed by default: the four company pages would
+                               otherwise push the rest of the menu off-screen. */
+                            <div key={n.href} className={`m-nav-group ${openGroup === n.href ? 'open' : ''}`}>
+                                <button
+                                    type="button"
+                                    className="m-nav-toggle"
+                                    aria-expanded={openGroup === n.href}
+                                    onClick={() => setOpenGroup(openGroup === n.href ? null : n.href)}
+                                    style={{ transitionDelay: menu ? `${0.12 + i * 0.06}s` : '0s' }}
+                                >
+                                    {t(n.key)}<IcChevron className="m-nav-caret" />
+                                </button>
+                                <div className="m-nav-sublist">
+                                    <div>
+                                        {n.children.map((c) => (
+                                            <Link
+                                                key={c.href}
+                                                href={c.href}
+                                                className={`m-nav-sub ${active(c.href) ? 'active' : ''}`}
+                                            >
+                                                {t(c.key)}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link key={n.href} href={n.href} style={{ transitionDelay: menu ? `${0.12 + i * 0.06}s` : '0s' }}
+                                className={`${active(n.href) ? 'active' : ''} ${n.highlight ? 'nav-hot' : ''}`}>
+                                {t(n.key)}
+                            </Link>
+                        )
                     ))}
                     <Link href="/rfq" className="m-rfq">{t('rfq.nav')}{rfqCount > 0 ? ` (${rfqCount})` : ''}</Link>
                 </nav>
@@ -339,8 +400,15 @@ function Footer() {
     const { props } = usePage();
     const year = new Date().getFullYear();
     // Quick links: the main nav (minus Home and the marketplace pill, which gets
-    // its own highlighted button below) plus the secondary links.
-    const quick = [...NAV.slice(1).filter((n) => n.href !== '/marketplace'), ...NAV_MORE];
+    // its own highlighted button below) plus the secondary links. The company
+    // menu is flattened to its children so Team and the catalogue keep a footer
+    // entry of their own rather than hiding behind one "About" label.
+    const quick = [
+        ...NAV.slice(1)
+            .filter((n) => n.href !== '/marketplace')
+            .flatMap((n) => n.children ?? [n]),
+        ...NAV_MORE,
+    ];
     const cats = (props.navCategories || []).filter((c) => c.products_count > 0).slice(0, 8);
     const s = props.settings || {};
     const socials = buildSocials(s);

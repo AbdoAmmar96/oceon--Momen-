@@ -6,10 +6,11 @@ use App\Models\TeamMember;
 use Illuminate\Database\Seeder;
 
 /**
- * Sample team members so the Team page looks complete out of the box. These are
- * placeholders — the client replaces the names, photos and bios from the admin
- * (Team resource). No photos are set, so each shows a neutral avatar until one
- * is uploaded.
+ * The board members carried over from the previous site
+ * (oceandrilling.co.uk/ar/board_members), keeping each person's original job
+ * title. Two have real photos supplied by the client; the rest fall back to the
+ * neutral avatar until their photos arrive — the admin can upload them, edit
+ * any detail, or add new members from the Team resource at any time.
  */
 class TeamMemberSeeder extends Seeder
 {
@@ -17,37 +18,67 @@ class TeamMemberSeeder extends Seeder
     {
         $members = [
             [
-                'name' => 'Managing Director',
-                'role_en' => 'Managing Director', 'role_ar' => 'المدير العام', 'role_fr' => 'Directeur général',
-                'bio_en' => 'Leads the company vision and the long-term relationships with factories and clients.',
-                'bio_ar' => 'يقود رؤية الشركة والعلاقات طويلة الأمد مع المصانع والعملاء.',
-                'bio_fr' => "Porte la vision de l'entreprise et les relations durables avec les usines et les clients.",
+                'name' => 'Eng. Wajih Abdel Hamid',
+                'name_ar' => 'م. وجيه عبد الحميد',
+                'role_en' => 'Executive Director',
+                'role_ar' => 'المدير التنفيذي',
+                'role_fr' => 'Directeur exécutif',
+                'photo' => 'img/team/wajih-abdelhamid.jpeg',
             ],
             [
-                'name' => 'Head of Trading & Sales',
-                'role_en' => 'Head of Trading & Sales', 'role_ar' => 'رئيس التجارة والمبيعات', 'role_fr' => 'Responsable négoce & ventes',
-                'bio_en' => 'Owns sourcing and client quotes across the Middle East, Africa and Europe.',
-                'bio_ar' => 'مسؤول عن التوريد وعروض الأسعار عبر الشرق الأوسط وأفريقيا وأوروبا.',
-                'bio_fr' => "Responsable du sourcing et des devis clients au Moyen-Orient, en Afrique et en Europe.",
+                'name' => 'Abu Canany',
+                'name_ar' => 'أبو كناني',
+                'role_en' => 'Sales & Marketing — Saudi Arabia Branch',
+                'role_ar' => 'المبيعات والتسويق — فرع المملكة العربية السعودية',
+                'role_fr' => 'Ventes & Marketing — Succursale d’Arabie Saoudite',
+                'photo' => 'img/team/abu-canany.jpeg',
             ],
             [
-                'name' => 'Technical Director',
-                'role_en' => 'Technical Director', 'role_ar' => 'المدير الفني', 'role_fr' => 'Directeur technique',
-                'bio_en' => 'Verifies condition and specification of every rig and part before it ships.',
-                'bio_ar' => 'يتحقق من حالة ومواصفات كل حفار وقطعة قبل الشحن.',
-                'bio_fr' => "Vérifie l'état et les spécifications de chaque foreuse et pièce avant expédition.",
+                'name' => 'Waleed Abdel Hamid',
+                'name_ar' => 'وليد عبد الحميد',
+                'role_en' => 'Sales & Marketing — Egypt Branch',
+                'role_ar' => 'المبيعات والتسويق — فرع مصر',
+                'role_fr' => 'Ventes & Marketing — Succursale d’Égypte',
+                'photo' => 'img/team/waleed-abdelhamid.jpg',
             ],
             [
-                'name' => 'Export & Logistics Manager',
-                'role_en' => 'Export & Logistics Manager', 'role_ar' => 'مدير التصدير واللوجستيات', 'role_fr' => 'Responsable export & logistique',
-                'bio_en' => 'Handles documentation, freight and customs so orders arrive without surprises.',
-                'bio_ar' => 'يتولى المستندات والشحن والجمارك ليصل الطلب بلا مفاجآت.',
-                'bio_fr' => "Gère documents, fret et douanes pour des commandes livrées sans surprises.",
+                'name' => 'Ibrahim Zenikri',
+                'name_ar' => 'إبراهيم زنيكري',
+                'role_en' => 'Sales & Marketing — Algeria Branch',
+                'role_ar' => 'المبيعات والتسويق — فرع الجزائر',
+                'role_fr' => 'Ventes & Marketing — Succursale d’Algérie',
+                'photo' => 'img/team/ibrahim-zenikri.jpg',
+            ],
+            [
+                'name' => 'Tayseer Al-Aqrbawy',
+                'name_ar' => 'تيسير العقرباوي',
+                'role_en' => 'Sales & Marketing — Sudan Branch',
+                'role_ar' => 'المبيعات والتسويق — فرع السودان',
+                'role_fr' => 'Ventes & Marketing — Succursale du Soudan',
+                // Only a 200×150 thumbnail survives on the old site; replace it
+                // from the admin as soon as a full-size photo is available.
+                'photo' => 'img/team/tayseer-alaqrbawy.jpg',
+            ],
+            [
+                'name' => 'Khaled Al-Mutairi',
+                'name_ar' => 'خالد المطيري',
+                'role_en' => 'Drilling Broker & Sales',
+                'role_ar' => 'وسيط ومبيعات الحفر',
+                'role_fr' => 'Courtier et ventes de forage',
+                'photo' => 'img/team/khaled-almutairi.jpg',
+            ],
+            [
+                'name' => 'Admos Senekis',
+                'name_ar' => 'أدموس سينيكيس',
+                'role_en' => 'Chief Engineer',
+                'role_ar' => 'كبير المهندسين',
+                'role_fr' => 'Ingénieur en chef',
+                'photo' => 'img/team/admos-senekis.jpg',
             ],
         ];
 
         foreach ($members as $i => $m) {
-            TeamMember::firstOrCreate(
+            TeamMember::updateOrCreate(
                 ['name' => $m['name']],
                 array_merge($m, ['is_active' => true, 'sort' => $i + 1]),
             );

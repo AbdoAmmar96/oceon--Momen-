@@ -3,6 +3,10 @@
 .env
 .env.backup
 .env.production
+# Every local variant (.env.bak, .env.local, …): only ".env.backup" was listed
+# before, so other copies could slip into a commit.
+.env.*
+!.env.example
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -24,7 +28,3 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-# Local dev artifacts — never ship these
-/composer.phar
-/database/*.sqlite
-/database/*.sqlite-journal

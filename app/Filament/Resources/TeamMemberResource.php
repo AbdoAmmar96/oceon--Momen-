@@ -24,7 +24,14 @@ class TeamMemberResource extends Resource
     {
         return $form->schema([
             Forms\Components\Section::make('Person')->schema([
-                Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\TextInput::make('name')
+                    ->label('Name (Latin)')
+                    ->helperText('Shown on the English and French pages.')
+                    ->required(),
+                Forms\Components\TextInput::make('name_ar')
+                    ->label('الاسم بالعربية')
+                    ->helperText('Optional — falls back to the Latin name when empty.')
+                    ->extraInputAttributes(['dir' => 'rtl']),
                 Forms\Components\FileUpload::make('photo')
                     ->image()->avatar()->disk('public')->directory('team')->imageEditor(),
                 Forms\Components\TextInput::make('email')->email(),

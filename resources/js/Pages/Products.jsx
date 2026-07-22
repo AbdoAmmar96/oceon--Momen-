@@ -41,16 +41,53 @@ function queryFromUrl() {
     return new URLSearchParams(window.location.search).get('q') || '';
 }
 
+/** Read the ?brand= param and validate it against the brands we actually list. */
+function brandFromUrl(brands) {
+    if (typeof window === 'undefined') return 'all';
+    const b = new URLSearchParams(window.location.search).get('brand');
+    return b && brands.includes(b) ? b : 'all';
+}
+
 export default function Products({ products, categories, brands = [] }) {
     const { t, pick } = useI18n();
     const { url } = usePage();
     const [cat, setCat] = useState(() => catFromUrl(products));
-    const [brand, setBrand] = useState('all');
+    const [brand, setBrand] = useState(() => brandFromUrl(brands));
     const [q, setQ] = useState(queryFromUrl);
     const cats = categories.filter((c) => c.products_count > 0);
 
     // Keep the selected category and search term in sync with the URL.
-    useEffect(() => { setCat(catFromUrl(products)); setQ(queryFromUrl()); }, [url]);
+    useEffect(() => {
+        setCat(catFromUrl(products));
+        setBrand(brandFromUrl(brands));
+        setQ(queryFromUrl());
+    }, [url]);
+
+    /*
+     * Mirror the active filters into the address bar. Without this the filters
+     * live only in component state, so opening a product and pressing Back
+     * returned the visitor to a bare /products — i.e. "All" — losing the
+     * section they were browsing.
+     *
+     * replaceState (not pushState) keeps one history entry for the listing, so
+     * Back from a product detail goes straight to the filtered list instead of
+     * stepping back through every chip the visitor tapped. Passing the existing
+     * history.state through is required: Inertia keeps its page payload there,
+     * and dropping it breaks restoring this page on Back.
+     */
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const params = new URLSearchParams(window.location.search);
+        cat === 'all' ? params.delete('cat') : params.set('cat', cat);
+        brand === 'all' ? params.delete('brand') : params.set('brand', brand);
+        q ? params.set('q', q) : params.delete('q');
+        const qs = params.toString();
+        window.history.replaceState(
+            window.history.state,
+            '',
+            window.location.pathname + (qs ? `?${qs}` : ''),
+        );
+    }, [cat, brand, q]);
 
     // Pre-fold every product's searchable text once: names, descriptions and
     // category in all three languages, plus brand / group / horsepower.

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class TeamMember extends Model
 {
     protected $fillable = [
-        'name',
+        'name', 'name_ar',
         'role_en', 'role_ar', 'role_fr',
         'bio_en', 'bio_ar', 'bio_fr',
         'photo', 'linkedin', 'email', 'is_active', 'sort',

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\CaseStudy;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\TeamMember;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,10 +28,29 @@ class PageController extends Controller
         return Inertia::render('About');
     }
 
+    public function objectives(): Response
+    {
+        return Inertia::render('Objectives');
+    }
+
     public function team(): Response
     {
         return Inertia::render('Team', [
             'members' => TeamMember::where('is_active', true)->orderBy('sort')->get(),
+        ]);
+    }
+
+    /**
+     * The company catalogue: a downloadable PDF the admin uploads from Site
+     * Settings, plus the category index so the range is browsable either way.
+     */
+    public function catalog(): Response
+    {
+        $pdf = Setting::get('company_catalog');
+
+        return Inertia::render('Catalog', [
+            'catalogUrl' => $pdf ? Storage::disk('public')->url($pdf) : null,
+            'categories' => Category::withCount('products')->orderBy('sort')->get(),
         ]);
     }
 

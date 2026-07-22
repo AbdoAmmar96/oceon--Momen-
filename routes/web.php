@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+/* "About the company" group, mirroring the old site's عن الشركة menu. */
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/objectives', [PageController::class, 'objectives'])->name('objectives');
 Route::get('/team', [PageController::class, 'team'])->name('team');
+Route::get('/catalog', [PageController::class, 'catalog'])->name('catalog');
 Route::get('/products', [PageController::class, 'products'])->name('products');
 Route::get('/products/{product:slug}', [PageController::class, 'product'])->name('products.show');
 Route::get('/services', [PageController::class, 'services'])->name('services');
