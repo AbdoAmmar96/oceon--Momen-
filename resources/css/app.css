@@ -956,7 +956,10 @@ html[lang="ar"] .f-field :is(input,textarea):focus~label,html[lang="ar"] .f-fiel
      while the header sat at ~10px, so every section read as inset against the
      logo/burger above it. One gutter for all three keeps the vertical edge
      straight from header to footer and gives the content back ~12px. */
-  .wrap,.wrap-narrow,.site-head .wrap{width:100%;padding-inline:10px}
+  /* .wrap-narrow is handled next to its own declaration further down — listing
+     it here would lose to that later, equal-specificity rule and leave the
+     padding applied on top of a 92% width, i.e. narrower than before. */
+  .wrap,.site-head .wrap{width:100%;padding-inline:10px}
   body{font-size:15.5px}
   .hero-inner{padding-block:4rem 7.5rem}
   .hero-stats{gap:1.2rem}
@@ -1210,6 +1213,8 @@ html[dir="rtl"] .cat-card:hover .cat-arrow svg{translate:-3px 0}
    ============================================================ */
 
 .wrap-narrow{width:min(760px,92%);margin-inline:auto}
+/* Same phone gutter as .wrap — declared here so it wins on source order. */
+@media (max-width:640px){.wrap-narrow{width:100%;padding-inline:10px}}
 .sec-top{padding-top:calc(var(--head-h,86px) + 3rem)}
 
 /* --- header account links --- */

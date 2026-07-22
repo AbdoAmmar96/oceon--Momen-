@@ -33,7 +33,12 @@ class TeamMemberResource extends Resource
                     ->helperText('Optional — falls back to the Latin name when empty.')
                     ->extraInputAttributes(['dir' => 'rtl']),
                 Forms\Components\FileUpload::make('photo')
-                    ->image()->avatar()->disk('public')->directory('team')->imageEditor(),
+                    ->image()->avatar()->disk('public')->directory('team')->imageEditor()
+                    // Seeded portraits live in public/img/team (web root), not on
+                    // the public storage disk. Filament otherwise checks the disk,
+                    // decides the file is missing, empties the field — and saving
+                    // any unrelated edit then writes NULL over the photo.
+                    ->fetchFileInformation(false),
                 Forms\Components\TextInput::make('email')->email(),
                 Forms\Components\TextInput::make('linkedin')->url()->label('LinkedIn URL'),
                 Forms\Components\Toggle::make('is_active')->label('Show on site')->default(true),

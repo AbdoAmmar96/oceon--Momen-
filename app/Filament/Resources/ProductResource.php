@@ -92,6 +92,10 @@ class ProductResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->image()->disk('public')->directory('products')
                     ->imageEditor()
+                    // Seeded catalogue photos live in public/img (web root), not on
+                    // the public storage disk. Without this Filament treats them as
+                    // missing, blanks the field, and any later save wipes the image.
+                    ->fetchFileInformation(false)
                     ->label('Cover image')
                     ->helperText('Main photo shown in listings & as the gallery cover.'),
                 Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
@@ -99,6 +103,7 @@ class ProductResource extends Resource
                     ->image()->multiple()->reorderable()->appendFiles()
                     ->disk('public')->directory('products')
                     ->imageEditor()
+                    ->fetchFileInformation(false)
                     ->label('Gallery images')
                     ->helperText('Extra photos shown on the product page. Drag to reorder.')
                     ->columnSpanFull(),
