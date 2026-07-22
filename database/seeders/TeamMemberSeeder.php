@@ -83,5 +83,23 @@ class TeamMemberSeeder extends Seeder
                 array_merge($m, ['is_active' => true, 'sort' => $i + 1]),
             );
         }
+
+        /*
+         * An earlier version of this seeder inserted four generic job-title
+         * placeholders. They are not real people, and on an already-seeded site
+         * they sit alongside the real board. Drop them — but only while they are
+         * still untouched (no photo, no Arabic name), so a genuine member the
+         * client happened to name this way is never removed.
+         */
+        TeamMember::query()
+            ->whereIn('name', [
+                'Managing Director',
+                'Head of Trading & Sales',
+                'Technical Director',
+                'Export & Logistics Manager',
+            ])
+            ->whereNull('photo')
+            ->whereNull('name_ar')
+            ->delete();
     }
 }
